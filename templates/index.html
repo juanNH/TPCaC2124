@@ -7,6 +7,23 @@ Inicio
 
 {% block contenido %}
     <h2>ejemplo</ h2>  
-    
+    {% for articulo in articulos %}
+    <div>  
+        <a href="{{url_for('articulo', id_articulo = articulo.0)}}">
+            <div class="card" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{articulo.1}}</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>     
+                   
+                </div>
+                <p>Publicado el:{{articulo.5}}</p>
+            </div>
+            
+        </a>
+    </div>  
+
+    {% endfor %}
+
 
 {% endblock %}
