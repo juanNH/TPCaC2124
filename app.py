@@ -25,14 +25,20 @@ class nav:
 
 
 # vista index
+@app.route('/,<id_categoria>')
 @app.route('/')
-def index():
-
-    sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `blog_cac2124`.`articulo`"
-
+def index(id_categoria = None):
     conn=mysql.connect()
     cursor=conn.cursor()
-    cursor.execute(sql) 
+    if id_categoria != None :
+        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha) FROM `blog_cac2124`.`articulo` a INNER JOIN `blog_cac2124`.`categoria` c ON (a.id_categoria = c.id_categoria) WHERE a.id_categoria = %s;"
+        datos = (id_categoria)
+        cursor.execute(sql,datos) 
+    else:
+        sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `blog_cac2124`.`articulo`"
+        cursor.execute(sql) 
+    
+   
     articulos = cursor.fetchall()  
     conn.commit()
 
@@ -72,7 +78,7 @@ def storage():
     conn.commit()
 
     categorias = nav.nav_categorias()
-    return redirect('/',categorias = categorias)
+    return redirect(url_for('index'))
 
 @app.route('/articulo/<id_articulo>')
 def articulo(id_articulo):
