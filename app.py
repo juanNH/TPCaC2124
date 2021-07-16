@@ -12,6 +12,17 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
 mysql.init_app(app)
+class nav:
+    def nav_categorias():
+        sql= "SELECT * FROM `blog_cac2124`.`categoria`"
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute(sql) 
+        nav_categorias = cursor.fetchall()  
+        conn.commit()
+
+        return nav_categorias
+
 
 # vista index
 @app.route('/')
@@ -25,7 +36,9 @@ def index():
     articulos = cursor.fetchall()  
     conn.commit()
 
-    return render_template('index.html',articulos = articulos)
+    categorias = nav.nav_categorias()
+
+    return render_template('index.html',articulos = articulos,categorias=categorias)
 
 # vista registro
 @app.route('/registro')
@@ -37,14 +50,8 @@ def registro():
     autores = cursor.fetchall()  
     conn.commit()
 
-    categorias= "SELECT * FROM `blog_cac2124`.`categoria`;" 
-    conn=mysql.connect()
-    cursor=conn.cursor()
-    cursor.execute(categorias) 
-    categorias = cursor.fetchall()  
-    conn.commit()
 
-
+    categorias = nav.nav_categorias()
     return render_template('registro.html',autores = autores,categorias=categorias)
 #crear publicacion
 @app.route('/store', methods = ['POST'])
@@ -63,7 +70,9 @@ def storage():
     cursor = conn.cursor()
     cursor.execute(sql, datos)
     conn.commit()
-    return redirect('/')
+
+    categorias = nav.nav_categorias()
+    return redirect('/',categorias = categorias)
 
 @app.route('/articulo/<id_articulo>')
 def articulo(id_articulo):
@@ -76,7 +85,8 @@ def articulo(id_articulo):
     articulo = cursor.fetchall()  
     conn.commit()
 
-    return render_template('articulo.html',articulo = articulo[0])
+    categorias = nav.nav_categorias()
+    return render_template('articulo.html',articulo = articulo[0],categorias=categorias)
 
 @app.route('/panel')
 def panel():
@@ -88,7 +98,8 @@ def panel():
     articulos = cursor.fetchall()  
     conn.commit()
 
-    return render_template('panel.html',articulos = articulos)
+    categorias = nav.nav_categorias()
+    return render_template('panel.html',articulos = articulos,categorias=categorias)
 
 @app.route('/eliminar/<id_articulo>')
 def eliminar(id_articulo):
@@ -105,7 +116,8 @@ def eliminar(id_articulo):
 
 @app.route('/editar/<id_articulo>')
 def editar(id_articulo):
-    return redirect(url_for('panel'))
+    categorias = nav.nav_categorias()
+    return redirect(url_for('panel'),categorias=categorias)
 
 if __name__ == '__main__':
     app.run(debug=True)
