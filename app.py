@@ -17,27 +17,27 @@ mysql.init_app(app)
 @app.route('/')
 def index():
 
-    sql= "select * from `blog_cac2124`.`autor`"
+    sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `blog_cac2124`.`articulo`"
 
     conn=mysql.connect()
     cursor=conn.cursor()
     cursor.execute(sql) 
-    autores = cursor.fetchall()  
+    articulos = cursor.fetchall()  
     conn.commit()
 
-    return render_template('index.html',autores = autores)
+    return render_template('index.html',articulos = articulos)
 
 # vista registro
 @app.route('/registro')
 def registro():
-    autor= "select id_autor, CONCAT(nombre,' ',apellido) from `blog_cac2124`.`autor`"
+    autor= "SELECT id_autor, CONCAT(nombre,' ',apellido) FROM `blog_cac2124`.`autor`"
     conn=mysql.connect()
     cursor=conn.cursor()
     cursor.execute(autor) 
     autores = cursor.fetchall()  
     conn.commit()
 
-    categorias= "select * from `blog_cac2124`.`categoria`" 
+    categorias= "SELECT * FROM `blog_cac2124`.`categoria`;" 
     conn=mysql.connect()
     cursor=conn.cursor()
     cursor.execute(categorias) 
@@ -65,6 +65,19 @@ def storage():
     conn.commit()
     return redirect('/')
 
+@app.route('/articulo/<id_articulo>')
+def articulo(id_articulo):
+
+    sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `blog_cac2124`.`articulo` WHERE id_articulo = %s;"
+    datos = (id_articulo)
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql,datos) 
+    articulo = cursor.fetchall()  
+    conn.commit()
+
+
+    return render_template('articulo.html',articulo = articulo[0])
 
 
 
