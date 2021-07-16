@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+{% block title%}
+Registro
+{{super()}}
+{% endblock %}
+
+{% block contenido %}
+    
+    <form action="/store" method="POST" enctype="multipart/form-data">
+        
+        <label for="exampleFormControlTextarea1" class="form-label">Titulo:</label>
+        <input class="form-control" type="text" placeholder="Ingrese titulo" aria-label="default input example" name="titulo">
+
+
+        <label for="exampleFormControlTextarea1" class="form-label">Usuarios:</label>
+        <div class="input-group mb-3">
+            <select class="form-select" id="inputGroupSelect03" aria-label="Example select with button addon" name="id_autor">
+                <option selected>Usuario</option>
+                {% for autor in autores %}
+                    <option value="{{autor.0}}">{{autor.1}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <label for="exampleFormControlTextarea1" class="form-label">Categorias:</label>
+        <div class="input-group mb-3">
+            <select class="form-select" id="inputGroupSelect03" aria-label="Example select with button addon" name="id_categoria">
+                <option selected>Categoria</option>
+                {% for categoria in categorias %}
+                    <option value="{{categoria.0}}">{{categoria.1}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Articulo:</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="contenido"></textarea>
+          </div>
+          <input type="submit" class="btn btn-success" value="Crear">
+    </form> 
+    
+
+{% endblock %}
