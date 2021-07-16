@@ -76,11 +76,36 @@ def articulo(id_articulo):
     articulo = cursor.fetchall()  
     conn.commit()
 
-
     return render_template('articulo.html',articulo = articulo[0])
 
+@app.route('/panel')
+def panel():
+    sql= "SELECT * FROM `blog_cac2124`.`articulo`"
 
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql) 
+    articulos = cursor.fetchall()  
+    conn.commit()
 
+    return render_template('panel.html',articulos = articulos)
+
+@app.route('/eliminar/<id_articulo>')
+def eliminar(id_articulo):
+    
+    sql = "DELETE FROM `blog_cac2124`.`articulo` WHERE id_articulo = %s;"
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    datos = (id_articulo)
+    cursor.execute(sql,(datos))
+
+    cursor.execute(sql,(id))
+    conn.commit()
+    return redirect(url_for('panel'))
+
+@app.route('/editar/<id_articulo>')
+def editar(id_articulo):
+    return redirect(url_for('panel'))
 
 if __name__ == '__main__':
     app.run(debug=True)

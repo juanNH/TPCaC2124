@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block title%}
+Panel de administracion
+{{super()}}
+{% endblock %}
+
+{% block contenido %}
+    <h2>Panel de adminsitracion</h2>  
+    <table class="table">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <td scope="col">titulo</td>
+              <td scope="col">contenido</td>
+              <td scope="col">categoria</td>
+              <td scope="col">autor</td>
+              <td scope="col">fecha</td>
+              <td scope="col"></td>
+              <td scope="col"></td>
+            </tr>
+          </thead>
+          <tbody>
+    {% for articulo in articulos %}
+    <tr>
+        <td scope="row">{{articulo.0}}</td>
+        <td>{{articulo.1}}</td>
+        <td class="ellipsis">{{articulo.2}}</td>
+        <td >{{articulo.3}}</td>
+        <td>{{articulo.4}}</td>
+        <td>{{articulo.5}}</td>
+        <td><a href="{{url_for('editar',id_articulo = articulo[0])}}" class="btn btn-warning">Editar</a></td>
+        <td><a href="{{url_for('eliminar',id_articulo = articulo[0])}}" class="btn btn-danger">Eliminar</a></td>
+    </tr>
+    {% endfor %}
+        </tbody>
+      </table>
+
+
+
+{% endblock %}
