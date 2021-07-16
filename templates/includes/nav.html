@@ -20,9 +20,9 @@
               Categorias
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              {% for categoria in categorias %}
+                <li><a class="dropdown-item" href="#">{{categoria.1}}</a></li>
+              {% endfor %}
             </ul>
           </li>
           <li class="nav-item ">
