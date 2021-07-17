@@ -12,6 +12,8 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
 mysql.init_app(app)
+
+# clase nav para pedir las categorias a las vistas
 class nav:
     def nav_categorias():
         sql= "SELECT * FROM `blog_cac2124`.`categoria`"
@@ -59,9 +61,9 @@ def registro():
 
     categorias = nav.nav_categorias()
     return render_template('registro.html',autores = autores,categorias=categorias)
-#crear publicacion
-@app.route('/store', methods = ['POST'])
-def storage():
+# funcion crear publicacion
+@app.route('/crear', methods = ['POST'])
+def crear():
     _titulo = request.form['titulo']
     _contenido = request.form['contenido']
     _id_categoria = request.form['id_categoria']
@@ -79,7 +81,7 @@ def storage():
 
     categorias = nav.nav_categorias()
     return redirect(url_for('index'))
-
+# vistas de cada articulo de manera individual
 @app.route('/articulo/<id_articulo>')
 def articulo(id_articulo):
 
@@ -93,10 +95,10 @@ def articulo(id_articulo):
 
     categorias = nav.nav_categorias()
     return render_template('articulo.html',articulo = articulo[0],categorias=categorias)
-
+# vista panel de control
 @app.route('/panel')
 def panel():
-    sql= "SELECT * FROM `blog_cac2124`.`articulo`"
+    sql= "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, ar.fecha, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `blog_cac2124`.`articulo`ar INNER JOIN `blog_cac2124`.`autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `blog_cac2124`.`categoria` c ON (ar.id_categoria = c.id_categoria) ;"
 
     conn=mysql.connect()
     cursor=conn.cursor()
@@ -106,7 +108,7 @@ def panel():
 
     categorias = nav.nav_categorias()
     return render_template('panel.html',articulos = articulos,categorias=categorias)
-
+# funcion de eliminar articulo
 @app.route('/eliminar/<id_articulo>')
 def eliminar(id_articulo):
     
@@ -119,11 +121,34 @@ def eliminar(id_articulo):
     cursor.execute(sql,(id))
     conn.commit()
     return redirect(url_for('panel'))
-
+# vista/funcion de editar registro
 @app.route('/editar/<id_articulo>')
 def editar(id_articulo):
-    categorias = nav.nav_categorias()
-    return redirect(url_for('panel'),categorias=categorias)
 
+    sql = "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `blog_cac2124`.`articulo`ar INNER JOIN `blog_cac2124`.`autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `blog_cac2124`.`categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_articulo = %s;"
+    datos = (id_articulo)
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute(sql,(datos))
+    id_articulo = cursor.fetchall()
+    conn.commit()
+
+    categorias = nav.nav_categorias()
+    return render_template('editar.html', categorias = categorias, id_articulo = id_articulo[0])
+
+@app.route('/editar_articulo', methods = ['POST'])
+def editar_articulo():
+    _id_articulo = request.form['id_articulo']
+    _titulo = request.form['titulo']
+    _contenido = request.form['contenido']
+    _id_categoria = request.form['id_categoria']
+
+    sql="UPDATE `blog_cac2124`.`articulo` SET `titulo`=%s ,`contenido`=%s, `id_categoria`=%s WHERE id_articulo=%s;"
+    datos=(_titulo,_contenido,_id_categoria,_id_articulo)  # crea la sentencia sql
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql,datos)               # ejecuta la sentencia sql 
+    conn.commit()
+    return redirect(url_for('panel'))
 if __name__ == '__main__':
     app.run(debug=True)
