@@ -31,7 +31,8 @@ class nav:
         return nav_categorias
 
 
-    
+ #   insert into blog_cac2124.autor (nobmre,apellido, correo,password) VALUES ('pepe','pepe','pepe@pepe.com','asdasd'); 
+ #insertar usuarios luego para crear
 
 
 # vista index
@@ -105,21 +106,21 @@ def articulo(id_articulo):
     categorias = nav.nav_categorias()
     return render_template('articulo.html',articulo = articulo[0],categorias=categorias)
 # vista panel de control
-@app.route('/panel')
-def panel():
-    sql= "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, ar.fecha, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `blog_cac2124`.`articulo`ar INNER JOIN `blog_cac2124`.`autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `blog_cac2124`.`categoria` c ON (ar.id_categoria = c.id_categoria) ;"
-
+@app.route('/panel/<id_autor>')
+def panel(id_autor):
+    sql= "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, ar.fecha, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `blog_cac2124`.`articulo`ar INNER JOIN `blog_cac2124`.`autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `blog_cac2124`.`categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_autor =%s ;"
+    datos = (id_autor)
     conn=mysql.connect()
     cursor=conn.cursor()
-    cursor.execute(sql) 
+    cursor.execute(sql,datos) 
     articulos = cursor.fetchall()  
     conn.commit()
 
     categorias = nav.nav_categorias()
     return render_template('panel.html',articulos = articulos,categorias=categorias)
 # funcion de eliminar articulo
-@app.route('/eliminar/<id_articulo>')
-def eliminar(id_articulo):
+@app.route('/eliminar/<id_articulo>/<id_autor>')
+def eliminar(id_articulo,id_autor):
     
     sql = "DELETE FROM `blog_cac2124`.`articulo` WHERE id_articulo = %s;"
     conn = mysql.connect()
@@ -129,10 +130,10 @@ def eliminar(id_articulo):
 
     cursor.execute(sql,(id))
     conn.commit()
-    return redirect(url_for('panel'))
+    return redirect(url_for('panel',id_autor = id_autor))
 # vista/funcion de editar registro
-@app.route('/editar/<id_articulo>')
-def editar(id_articulo):
+@app.route('/editar/<id_articulo>/<id_autor>')
+def editar(id_articulo, id_autor):
 
     sql = "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `blog_cac2124`.`articulo`ar INNER JOIN `blog_cac2124`.`autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `blog_cac2124`.`categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_articulo = %s;"
     datos = (id_articulo)
@@ -143,10 +144,10 @@ def editar(id_articulo):
     conn.commit()
 
     categorias = nav.nav_categorias()
-    return render_template('editar.html', categorias = categorias, id_articulo = id_articulo[0])
+    return render_template('editar.html', categorias = categorias, id_articulo = id_articulo[0],id_autor = id_autor)
 
-@app.route('/editar_articulo', methods = ['POST'])
-def editar_articulo():
+@app.route('/editar_articulo/<id_autor>', methods = ['POST'])
+def editar_articulo(id_autor):
     _id_articulo = request.form['id_articulo']
     _titulo = request.form['titulo']
     _contenido = request.form['contenido']
@@ -158,7 +159,7 @@ def editar_articulo():
     cursor=conn.cursor()
     cursor.execute(sql,datos)               # ejecuta la sentencia sql 
     conn.commit()
-    return redirect(url_for('panel'))
+    return redirect(url_for('panel',id_autor = id_autor))
 
 
 #login 

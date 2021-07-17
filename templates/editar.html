@@ -6,7 +6,7 @@ Editar
 
 {% block contenido %}
 
-    <form action="/editar_articulo" method="POST" enctype="multipart/form-data">
+    <form action="/editar_articulo/{{id_autor}}" method="POST" enctype="multipart/form-data">
         
         <input class="form-control invisible" type="text"  aria-label="default input example" name="id_articulo" value="{{id_articulo.0}}">
 

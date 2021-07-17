@@ -21,13 +21,13 @@
           </li>
           {% if session.loggedin %}
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" href="{{url_for('registro')}}">Crear Post</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('panel')}}">Panel de adminsitracion</a>
+              <a class="nav-link" href="{{url_for('panel', id_autor=session.id_autor)}}">Panel de administracion</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
             </li>
           {% else %}
             <li class="nav-item">
