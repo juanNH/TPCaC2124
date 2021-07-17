@@ -189,8 +189,8 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('loggedin', None)
-    session.pop('id', None)
-    session.pop('username', None)
+    session.pop('id_autor', None)
+    session.pop('correo', None)
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
