@@ -1,9 +1,14 @@
 
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session
 from flaskext.mysql import MySQL
+import MySQLdb.cursors
+import re
 from datetime import datetime
 import os
+
 app = Flask(__name__)
+
+app.secret_key = 'pepe'
 
 #conexion a la base de datos
 mysql = MySQL()
@@ -26,10 +31,14 @@ class nav:
         return nav_categorias
 
 
+    
+
+
 # vista index
-@app.route('/,<id_categoria>')
+@app.route('/,<string:msg>')
+@app.route('/,<int:id_categoria>')
 @app.route('/')
-def index(id_categoria = None):
+def index(id_categoria = None, msg=None):
     conn=mysql.connect()
     cursor=conn.cursor()
     if id_categoria != None :
@@ -46,7 +55,7 @@ def index(id_categoria = None):
 
     categorias = nav.nav_categorias()
 
-    return render_template('index.html',articulos = articulos,categorias=categorias)
+    return render_template('index.html',articulos = articulos,categorias=categorias, msg=msg)
 
 # vista registro
 @app.route('/registro')
@@ -150,5 +159,39 @@ def editar_articulo():
     cursor.execute(sql,datos)               # ejecuta la sentencia sql 
     conn.commit()
     return redirect(url_for('panel'))
+
+
+#login 
+@app.route('/verificar', methods =['GET', 'POST'])
+def verificar():
+    msg = ''
+    if request.method == 'POST' and 'correo' in request.form and 'password' in request.form:
+        _correo = request.form['correo']
+        _password = request.form['password']
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute('SELECT * FROM `blog_cac2124`.`autor` WHERE correo = % s AND password = % s;', (_correo, _password))
+        cuenta = cursor.fetchone()  
+        if cuenta:
+            session['loggedin'] = True
+            session['id_autor'] = cuenta[0] 
+            session['correo'] = cuenta[3]
+            msg = 'Logged in successfully !'
+            return redirect(url_for('index', msg = msg))
+        else:
+            msg = 'Incorrect username / password !'
+    return render_template('login.html', msg = msg)
+
+@app.route('/login')
+def login():
+    categorias = nav.nav_categorias()
+    return render_template('login.html',categorias=categorias)
+@app.route('/logout')
+def logout():
+    session.pop('loggedin', None)
+    session.pop('id', None)
+    session.pop('username', None)
+    return redirect(url_for('login'))
+
 if __name__ == '__main__':
     app.run(debug=True)

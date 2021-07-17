@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block title%}
+Login
+{{super()}}
+{% endblock %}
+
+{% block contenido %}
+    <h2>Login</ h2>  
+        {{msg}}
+        <form action="/verificar" method="POST" enctype="multipart/form-data">
+        
+        
+            <label for="exampleFormControlTextarea1" class="form-label">Ingrese email:</label>
+            <input class="form-control" type="email" placeholder="Ingrese su correo" aria-label="default input example" name="correo" required>
+    
+    
+            <label for="exampleFormControlTextarea1" class="form-label">Categorias:</label>
+            <input class="form-control" type="password" placeholder="Ingrese su password" aria-label="default input example" name="password" required>
+
+
+              <input type="submit" class="btn btn-success" value="Logear">
+        </form> 
+{% endblock %}
