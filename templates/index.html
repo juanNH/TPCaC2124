@@ -7,8 +7,11 @@ Inicio
 
 {% block contenido %}
     <h2>ejemplo</ h2>  
-    {{session.correo}}
+    {{session.correo}}    
+    {{session.loggedin}} 
+
     {% if msg == None %}
+    
     {% else %}
         {{msg}}
     {% endif %}
