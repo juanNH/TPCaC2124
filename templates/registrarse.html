@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+
+{% block title%}
+Registrarse
+{{super()}}
+{% endblock %}
+
+{% block contenido %}
+
+<form action="/registrarse_validacion" method="POST" enctype="multipart/form-data">
+        
+     
+    
+    <label for="exampleFormControlTextarea1" class="form-label">Correo:</label>
+    <input class="form-control" type="email" placeholder="Ingrese su correo" aria-label="default input example" name="correo" required>
+
+    <label for="exampleFormControlTextarea1" class="form-label">Nombre:</label>
+    <input class="form-control" type="text" placeholder="Ingrese su nombre" aria-label="default input example" name="nombre" required>
+
+    <label for="exampleFormControlTextarea1" class="form-label">Apellido:</label>
+    <input class="form-control" type="text" placeholder="Ingrese su apellido" aria-label="default input example" name="apellido" required>
+
+    <label for="exampleFormControlTextarea1" class="form-label">Password:</label>
+    <input class="form-control" type="password" placeholder="Ingrese su password" aria-label="default input example" name="password" required>
+
+    <label for="exampleFormControlTextarea1" class="form-label">Repita la password:</label>
+    <input class="form-control" type="password" placeholder="Ingrese nuevamente la password" aria-label="default input example" name="password2" required>
+
+    {% if msg != None %}
+        <h1>{{msg}}</h1>
+    {% endif %}
+    
+
+    <input type="submit" class="btn btn-success" value="Registrarse">
+</form> 
+
+{% endblock %}
