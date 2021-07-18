@@ -7,7 +7,9 @@ Login
 
 {% block contenido %}
     <h2>Login</ h2>  
-        {{msg}}
+        {% if msg %}
+            <h1>{{msg}}</h1>
+        {% endif %}
         <form action="/verificar" method="POST" enctype="multipart/form-data">
         
         
