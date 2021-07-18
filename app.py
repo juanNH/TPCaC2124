@@ -163,10 +163,11 @@ def editar_articulo(id_autor):
 
 
 #login  y logout
+
 @app.route('/verificar', methods =['GET', 'POST'])
 def verificar():
     msg = ''
-    if request.method == 'POST' and 'correo' in request.form and 'password' in request.form:
+    if (request.method == 'POST' and 'correo' in request.form and 'password' in request.form):
         _correo = request.form['correo']
         _password = request.form['password']
         conn=mysql.connect()
@@ -177,16 +178,18 @@ def verificar():
             session['loggedin'] = True
             session['id_autor'] = cuenta[0] 
             session['correo'] = cuenta[3]
-            msg = 'Logged in successfully !'
+            msg = f'Logeo exitoso {_correo} !'
             return redirect(url_for('index', msg = msg))
         else:
             msg = 'Incorrect username / password !'
+
     return render_template('login.html', msg = msg)
 
 @app.route('/login')
-def login():
+@app.route('/login,<msg>')
+def login(msg=False):
     categorias = nav.nav_categorias()
-    return render_template('login.html',categorias=categorias)
+    return render_template('login.html',categorias=categorias,msg=msg)
 @app.route('/logout')
 def logout():
     session.pop('loggedin', None)
@@ -218,7 +221,7 @@ def registrarse_validacion():
             cursor.execute('INSERT INTO `blog_cac2124`.`autor`(nombre,apellido,correo,password) VALUES (%s, %s, %s, %s)', (_nombre,_apellido,_correo,_password ))
             conn.commit()
             msg = ' Te has registrado correctamente !'
-            return render_template('index.html', msg = msg)
+            return redirect(url_for('login', msg=msg))
 
         
     return redirect(url_for('registrarse', msg=msg))
