@@ -162,7 +162,7 @@ def editar_articulo(id_autor):
     return redirect(url_for('panel',id_autor = id_autor))
 
 
-#login 
+#login  y logout
 @app.route('/verificar', methods =['GET', 'POST'])
 def verificar():
     msg = ''
@@ -194,5 +194,39 @@ def logout():
     session.pop('correo', None)
     return redirect(url_for('login'))
 
+#registrar usuario
+@app.route('/registrarse_validacion', methods =['GET', 'POST'])
+def registrarse_validacion():
+    msg = ''
+    
+    if request.method == 'POST' and 'correo' in request.form and 'nombre' in request.form and 'apellido' in request.form and 'password' in request.form and 'password2' in request.form:
+        _correo = request.form['correo']
+        _nombre = request.form['nombre']
+        _apellido = request.form['apellido']
+        _password = request.form['password']
+        _password2 = request.form['password2']
+
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute('SELECT * FROM `blog_cac2124`.`autor` WHERE correo = %s', (_correo, ))
+        account = cursor.fetchone()
+        if account:
+            msg = 'Correo ya registrado!'
+        elif _password != _password2:
+            msg = 'Las password deben coincidir'
+        else:
+            cursor.execute('INSERT INTO `blog_cac2124`.`autor`(nombre,apellido,correo,password) VALUES (%s, %s, %s, %s)', (_nombre,_apellido,_correo,_password ))
+            conn.commit()
+            msg = ' Te has registrado correctamente !'
+            return render_template('index.html', msg = msg)
+
+        
+    return redirect(url_for('registrarse', msg=msg))
+
+@app.route('/registrarse/<msg>')
+@app.route('/registrarse')
+def registrarse(msg=None):
+
+    return render_template('registrarse.html',msg=msg)
 if __name__ == '__main__':
     app.run(debug=True)
