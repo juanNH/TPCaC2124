@@ -85,5 +85,6 @@ urllib3==1.26.4
 virtualenv==20.6.0
 webencodings==0.5.1
 Werkzeug==2.0.1
+wheel==0.36.2
 wincertstore==0.2
 wrapt==1.12.1
