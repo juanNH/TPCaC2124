@@ -5,6 +5,7 @@ import MySQLdb.cursors
 import re
 from datetime import datetime
 import os
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -30,7 +31,14 @@ class nav:
 
         return nav_categorias
 
-
+def login_required(test):
+    @wraps(test)
+    def wrap(*args,**kwargs):
+        if 'loggedin' in session:
+            return test(*args, **kwargs)
+        else:
+            return redirect(url_for('index'))
+    return wrap
  #   insert into blog_cac2124.autor (nobmre,apellido, correo,password) VALUES ('pepe','pepe','pepe@pepe.com','asdasd'); 
  #insertar usuarios luego para crear
 
@@ -60,6 +68,7 @@ def index(id_categoria = None, msg=None):
 
 # vista registro
 @app.route('/registro')
+@login_required
 def registro():
     autor= "SELECT id_autor, CONCAT(nombre,' ',apellido) FROM `blog_cac2124`.`autor`"
     conn=mysql.connect()
@@ -107,6 +116,7 @@ def articulo(id_articulo):
     return render_template('articulo.html',articulo = articulo[0],categorias=categorias)
 # vista panel de control
 @app.route('/panel/<id_autor>')
+@login_required
 def panel(id_autor):
     sql= "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, ar.fecha, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `blog_cac2124`.`articulo`ar INNER JOIN `blog_cac2124`.`autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `blog_cac2124`.`categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_autor =%s ;"
     datos = (id_autor)
@@ -229,7 +239,7 @@ def registrarse_validacion():
 @app.route('/registrarse/<msg>')
 @app.route('/registrarse')
 def registrarse(msg=None):
-
-    return render_template('registrarse.html',msg=msg)
+    categorias = nav.nav_categorias()
+    return render_template('registrarse.html', msg=msg, categorias = categorias)
 if __name__ == '__main__':
     app.run(debug=True)
