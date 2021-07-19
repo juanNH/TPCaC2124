@@ -39,8 +39,7 @@ def login_required(test):
         else:
             return redirect(url_for('index'))
     return wrap
- #   insert into blog_cac2124.autor (nobmre,apellido, correo,password) VALUES ('pepe','pepe','pepe@pepe.com','asdasd'); 
- #insertar usuarios luego para crear
+
 
 
 # vista index
@@ -51,11 +50,11 @@ def index(id_categoria = None, msg=None):
     conn=mysql.connect()
     cursor=conn.cursor()
     if id_categoria != None :
-        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha) FROM `blog_cac2124`.`articulo` a INNER JOIN `blog_cac2124`.`categoria` c ON (a.id_categoria = c.id_categoria) WHERE a.id_categoria = %s;"
+        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha) FROM `blog_cac2124`.`articulo` a INNER JOIN `blog_cac2124`.`categoria` c ON (a.id_categoria = c.id_categoria) WHERE a.id_categoria = %s Order by a.fecha DESC;"
         datos = (id_categoria)
         cursor.execute(sql,datos) 
     else:
-        sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `blog_cac2124`.`articulo`"
+        sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `blog_cac2124`.`articulo` ORDER BY fecha DESC"
         cursor.execute(sql) 
     
    
