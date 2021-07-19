@@ -7,7 +7,9 @@ Login
 
 {% block contenido %}
     <h2>Login</ h2>  
-        {{msg}}
+        {% if msg %}
+            <h1>{{msg}}</h1>
+        {% endif %}
         <form action="/verificar" method="POST" enctype="multipart/form-data">
         
         
@@ -15,7 +17,7 @@ Login
             <input class="form-control" type="email" placeholder="Ingrese su correo" aria-label="default input example" name="correo" required>
     
     
-            <label for="exampleFormControlTextarea1" class="form-label">Categorias:</label>
+            <label for="exampleFormControlTextarea1" class="form-label">Password:</label>
             <input class="form-control" type="password" placeholder="Ingrese su password" aria-label="default input example" name="password" required>
 
 
