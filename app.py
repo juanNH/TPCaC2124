@@ -13,16 +13,22 @@ app.secret_key = 'pepe'
 
 #conexion a la base de datos
 mysql = MySQL()
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
-app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
+app.config['MYSQL_DATABASE_HOST'] = '/heroku_b18c9020801b5ab?reconnect=true'
+app.config['MYSQL_DATABASE_USER'] = 'b3dfc31564e837'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'c35271f0'
+app.config['MYSQL_DATABASE_DB'] = 'heroku_b18c9020801b5ab'
+#local juan
+#app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+#app.config['MYSQL_DATABASE_USER'] = 'root'
+#app.config['MYSQL_DATABASE_PASSWORD'] = ''
+#app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
+
 mysql.init_app(app)
 
 # clase nav para pedir las categorias a las vistas
 class nav:
     def nav_categorias():
-        sql= "SELECT * FROM `blog_cac2124`.`categoria`"
+        sql= "SELECT * FROM `categoria`"
         conn=mysql.connect()
         cursor=conn.cursor()
         cursor.execute(sql) 
@@ -50,11 +56,11 @@ def index(id_categoria = None, msg=None):
     conn=mysql.connect()
     cursor=conn.cursor()
     if id_categoria != None :
-        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha) FROM `blog_cac2124`.`articulo` a INNER JOIN `blog_cac2124`.`categoria` c ON (a.id_categoria = c.id_categoria) WHERE a.id_categoria = %s Order by a.fecha DESC;"
+        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha) FROM `articulo` a INNER JOIN `categoria` c ON (a.id_categoria = c.id_categoria) WHERE a.id_categoria = %s Order by a.fecha DESC;"
         datos = (id_categoria)
         cursor.execute(sql,datos) 
     else:
-        sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `blog_cac2124`.`articulo` ORDER BY fecha DESC"
+        sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `articulo` ORDER BY fecha DESC"
         cursor.execute(sql) 
     
    
@@ -69,7 +75,7 @@ def index(id_categoria = None, msg=None):
 @app.route('/registro')
 @login_required
 def registro():
-    autor= "SELECT id_autor, CONCAT(nombre,' ',apellido) FROM `blog_cac2124`.`autor`"
+    autor= "SELECT id_autor, CONCAT(nombre,' ',apellido) FROM `autor`"
     conn=mysql.connect()
     cursor=conn.cursor()
     cursor.execute(autor) 
@@ -103,7 +109,7 @@ def crear():
 @app.route('/articulo/<id_articulo>')
 def articulo(id_articulo):
 
-    sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `blog_cac2124`.`articulo` WHERE id_articulo = %s;"
+    sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `articulo` WHERE id_articulo = %s;"
     datos = (id_articulo)
     conn=mysql.connect()
     cursor=conn.cursor()
@@ -117,7 +123,7 @@ def articulo(id_articulo):
 @app.route('/panel/<id_autor>')
 @login_required
 def panel(id_autor):
-    sql= "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, ar.fecha, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `blog_cac2124`.`articulo`ar INNER JOIN `blog_cac2124`.`autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `blog_cac2124`.`categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_autor =%s ;"
+    sql= "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, ar.fecha, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `articulo`ar INNER JOIN `autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_autor =%s ;"
     datos = (id_autor)
     conn=mysql.connect()
     cursor=conn.cursor()
@@ -131,7 +137,7 @@ def panel(id_autor):
 @app.route('/eliminar/<id_articulo>/<id_autor>')
 def eliminar(id_articulo,id_autor):
     
-    sql = "DELETE FROM `blog_cac2124`.`articulo` WHERE id_articulo = %s;"
+    sql = "DELETE FROM `articulo` WHERE id_articulo = %s;"
     conn = mysql.connect()
     cursor = conn.cursor()
     datos = (id_articulo)
@@ -144,7 +150,7 @@ def eliminar(id_articulo,id_autor):
 @app.route('/editar/<id_articulo>/<id_autor>')
 def editar(id_articulo, id_autor):
 
-    sql = "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `blog_cac2124`.`articulo`ar INNER JOIN `blog_cac2124`.`autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `blog_cac2124`.`categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_articulo = %s;"
+    sql = "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `articulo`ar INNER JOIN `autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_articulo = %s;"
     datos = (id_articulo)
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -162,7 +168,7 @@ def editar_articulo(id_autor):
     _contenido = request.form['contenido']
     _id_categoria = request.form['id_categoria']
 
-    sql="UPDATE `blog_cac2124`.`articulo` SET `titulo`=%s ,`contenido`=%s, `id_categoria`=%s WHERE id_articulo=%s;"
+    sql="UPDATE `articulo` SET `titulo`=%s ,`contenido`=%s, `id_categoria`=%s WHERE id_articulo=%s;"
     datos=(_titulo,_contenido,_id_categoria,_id_articulo)  # crea la sentencia sql
     conn=mysql.connect()
     cursor=conn.cursor()
@@ -181,7 +187,7 @@ def verificar():
         _password = request.form['password']
         conn=mysql.connect()
         cursor=conn.cursor()
-        cursor.execute('SELECT * FROM `blog_cac2124`.`autor` WHERE correo = % s AND password = % s;', (_correo, _password))
+        cursor.execute('SELECT * FROM `autor` WHERE correo = % s AND password = % s;', (_correo, _password))
         cuenta = cursor.fetchone()  
         if cuenta:
             session['loggedin'] = True
@@ -220,14 +226,14 @@ def registrarse_validacion():
 
         conn=mysql.connect()
         cursor=conn.cursor()
-        cursor.execute('SELECT * FROM `blog_cac2124`.`autor` WHERE correo = %s', (_correo, ))
+        cursor.execute('SELECT * FROM `autor` WHERE correo = %s', (_correo, ))
         account = cursor.fetchone()
         if account:
             msg = 'Correo ya registrado!'
         elif _password != _password2:
             msg = 'Las password deben coincidir'
         else:
-            cursor.execute('INSERT INTO `blog_cac2124`.`autor`(nombre,apellido,correo,password) VALUES (%s, %s, %s, %s)', (_nombre,_apellido,_correo,_password ))
+            cursor.execute('INSERT INTO `autor`(nombre,apellido,correo,password) VALUES (%s, %s, %s, %s)', (_nombre,_apellido,_correo,_password ))
             conn.commit()
             msg = ' Te has registrado correctamente !'
             return redirect(url_for('login', msg=msg))
