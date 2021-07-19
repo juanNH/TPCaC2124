@@ -12,7 +12,6 @@ cachetools==4.2.1
 certifi==2020.12.5
 chardet==4.0.0
 click==8.0.1
-conda==4.9.2
 cycler==0.10.0
 decorator==4.4.2
 defusedxml==0.6.0
