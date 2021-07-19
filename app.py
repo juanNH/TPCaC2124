@@ -10,9 +10,10 @@ app = Flask(__name__)
 
 app.secret_key = 'pepe'
 
-#conexion a la base de datos
+#conexion a la base de datos        
 mysql = MySQL()
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_PORT'] = 3308
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
@@ -41,13 +42,24 @@ class nav:
 @app.route('/')
 def index(id_categoria = None, msg=None):
     conn=mysql.connect()
-    cursor=conn.cursor()
+    print(conn)
+    print(mysql)
+    cursor=conn.cursor()  
+    cursor.execute("Show tables;")
+    
+    myresult = cursor.fetchall()
+    
+    print('tablas')
+    for x in myresult:
+        print(x)
+    print('.')
     if id_categoria != None :
         sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha) FROM `blog_cac2124`.`articulo` a INNER JOIN `blog_cac2124`.`categoria` c ON (a.id_categoria = c.id_categoria) WHERE a.id_categoria = %s;"
         datos = (id_categoria)
         cursor.execute(sql,datos) 
     else:
         sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `blog_cac2124`.`articulo`"
+        sql= "SELECT * FROM autor"
         cursor.execute(sql) 
     
    
