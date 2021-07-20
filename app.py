@@ -13,7 +13,7 @@ app.secret_key = 'pepe'
 
 #conexion a la base de datos
 mysql = MySQL()
-app.config['MYSQL_DATABASE_HOST'] = '/heroku_b18c9020801b5ab?reconnect=true'
+app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-04.cleardb.com'
 app.config['MYSQL_DATABASE_USER'] = 'b3dfc31564e837'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'c35271f0'
 app.config['MYSQL_DATABASE_DB'] = 'heroku_b18c9020801b5ab'
