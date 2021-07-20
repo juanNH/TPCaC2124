@@ -14,7 +14,7 @@ app.secret_key = 'pepe'
 #conexion a la base de datos        
 mysql = MySQL()
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_PORT'] = 3308
+app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
@@ -73,8 +73,11 @@ def index(id_categoria = None, msg=None):
     conn.commit()
 
     categorias = nav.nav_categorias()
+    catDict = {}
+    for ind, val in categorias:
+        catDict[ind]=val
 
-    return render_template('index.html',articulos = articulos,categorias=categorias, msg=msg)
+    return render_template('index.html',articulos = articulos,categorias=categorias, msg=msg, catDict=catDict)
 
 # vista registro
 @app.route('/registro')

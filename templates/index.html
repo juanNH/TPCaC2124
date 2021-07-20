@@ -6,7 +6,7 @@ Inicio
 {% endblock %}
 
 {% block contenido %}
-    <h2>ejemplo</ h2>  
+    <h2>Blog Codo a Codo</h2>  
     {{session.correo}}    
     {{session.id_autor}} 
     {{session.loggedin}}
@@ -19,14 +19,14 @@ Inicio
     {% for articulo in articulos %}
     <div>  
         <a href="{{url_for('articulo', id_articulo = articulo.0)}}">
-            <div class="card" style="width: 18rem;">
+            <div class="card">
             <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">{{articulo.1}}</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>     
-                   
-                </div>
-                <p>Publicado el:{{articulo.5}}</p>
+                    <h4 class="card-header">{{catDict[articulo.3]}}</h4>
+                    <div class="card-body ">
+                        <h5 class="card-title">{{articulo.1}}</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                    <div class="card-footer text-muted"> <p>Publicado el: {{articulo.5}}</p></div>   
             </div>
             
         </a>

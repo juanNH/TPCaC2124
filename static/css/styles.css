@@ -1,9 +1,60 @@
+body{
+    background: #cc8c8c;
+}
+h2{
+    text-align: center;
+    color: #ff0000;
+}
+
+div.transbox{
+    background:rgba(175, 250, 255, 0.514);
+    max-width: 70%;
+    margin: auto;
+    align-content: center;
+    border-color: blue;
+    border-style: double;
+}
+
 .ellipsis {
     max-width: 40px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
+.card{
+    width: 90%;
+    padding: 1em;
+    border-radius: 15px;
+    border: 3px dotted #ff0000;
+    height: 100%; 
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1em;
+    margin-top: 1em;
+
+}
+
+.articontent{
+    text-align: center;
+    height: 100%;
+}
+
 .invisible{
     display: none;
 }
+
+/*Flexbox*/
+
+.container{
+
+    display: flex;
+    
+    flex-direction: column;
+    
+    min-width: 100%;
+    
+    padding: 0;
+    height:100%;
+    
+    }
+
