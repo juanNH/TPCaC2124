@@ -3,34 +3,50 @@
 {% block title%}
 Registrarse
 {{super()}}
-{% endblock %}
-
+{% endblock %}    
 {% block contenido %}
-
-<form action="/registrarse_validacion" method="POST" enctype="multipart/form-data">
-        
-    
-    <label for="exampleFormControlTextarea1" class="form-label">Correo:</label>
-    <input class="form-control" type="email" placeholder="Ingrese su correo" aria-label="default input example" name="correo" required>
-
-    <label for="exampleFormControlTextarea1" class="form-label">Nombre:</label>
-    <input class="form-control" type="text" placeholder="Ingrese su nombre" aria-label="default input example" name="nombre" required>
-
-    <label for="exampleFormControlTextarea1" class="form-label">Apellido:</label>
-    <input class="form-control" type="text" placeholder="Ingrese su apellido" aria-label="default input example" name="apellido" required>
-
-    <label for="exampleFormControlTextarea1" class="form-label">Password:</label>
-    <input class="form-control" type="password" placeholder="Ingrese su password" aria-label="default input example" name="password" required>
-
-    <label for="exampleFormControlTextarea1" class="form-label">Repita la password:</label>
-    <input class="form-control" type="password" placeholder="Ingrese nuevamente la password" aria-label="default input example" name="password2" required>
-
+<div class="registro">
+    <div>
+    <h2 class="titulopag">Registro</h2>        
+    <form action="/registrarse_validacion" method="POST" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-auto">    
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input id="nombre" class="form-control" type="text" placeholder="Ingrese su nombre" aria-label="default input example" name="nombre" required>
+        </div>
+        <div class="col-auto">
+            <label for="apellido" class="form-label">Apellido:</label>
+            <input id="apellido" class="form-control" type="text" placeholder="Ingrese su apellido" aria-label="default input example" name="apellido" required>
+        </div>   
+    </div>
+    <div class="row">
+        <div class="col-auto">     
+            <label for="exampleFormControlTextarea1" class="form-label">Correo:</label>
+            <input class="form-control" type="email" placeholder="Ingrese su correo" aria-label="default input example" name="correo" required>   
+        </div>
+    </div>
+    <div class="row"> 
+        <div class="col-auto">   
+            <label for="exampleFormControlTextarea1" class="form-label">Contraseña:</label>
+            <input class="form-control" type="password" placeholder="Ingrese su contraseña" aria-label="default input example" name="password" required>
+        </div>  
+        <div class="col-auto">
+            <label for="exampleFormControlTextarea1" class="form-label">Repita su contraseña:</label>
+            <input class="form-control" type="password" placeholder="Ingrese nuevamente su contraseña" aria-label="default input example" name="password2" required>
+        </div>
+    </div>
     {% if msg != None %}
         <h1>{{msg}}</h1>
     {% endif %}
+
     
 
-    <input type="submit" class="btn btn-success" value="Registrarse">
+    
+</div>
+<input type="submit" class="btn btn-success" value="Registrarse" style="margin-top: 2em">
+</div>   
+
+    
 </form> 
 
 {% endblock %}
