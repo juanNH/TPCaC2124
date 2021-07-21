@@ -13,11 +13,12 @@ app.secret_key = 'pepe'
 
 #conexion a la base de datos        
 mysql = MySQL()
+#bd heroku
 #app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-04.cleardb.com'
 #app.config['MYSQL_DATABASE_USER'] = 'b3dfc31564e837'
 #app.config['MYSQL_DATABASE_PASSWORD'] = 'c35271f0'
 #app.config['MYSQL_DATABASE_DB'] = 'heroku_b18c9020801b5ab'
-#local juan
+#local 
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
@@ -66,11 +67,11 @@ def index(id_categoria = None, msg=None):
         print(x)
     print('.')
     if id_categoria != None :
-        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha) FROM `articulo` a INNER JOIN `categoria` c ON (a.id_categoria = c.id_categoria) WHERE a.id_categoria = %s Order by a.fecha DESC;"
+        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido) FROM `articulo` a INNER JOIN `categoria` c ON (a.id_categoria = c.id_categoria) INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE a.id_categoria = %s Order by a.fecha DESC;"
         datos = (id_categoria)
         cursor.execute(sql,datos) 
     else:
-        sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `articulo` ORDER BY fecha DESC"
+        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido) FROM `articulo` a INNER JOIN `autor` au ON (a.id_autor = au.id_autor) ORDER BY fecha DESC"
         cursor.execute(sql) 
     
    
@@ -82,7 +83,11 @@ def index(id_categoria = None, msg=None):
     for ind, val in categorias:
         catDict[ind]=val
 
-    return render_template('index.html', articulos = articulos,categorias=categorias, msg=msg, catDict=catDict)
+    return render_template('index.html',
+                            articulos = articulos,
+                            categorias=categorias, msg=msg,
+                            catDict=catDict
+                            )
 
 # vista registro
 @app.route('/registro')
@@ -123,8 +128,9 @@ def crear():
 # vistas de cada articulo de manera individual
 @app.route('/articulo/<id_articulo>')
 def articulo(id_articulo):
+    
+    sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido) FROM `articulo` a INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE id_articulo = %s;"
 
-    sql= "SELECT id_articulo,titulo,contenido,id_categoria,id_autor, DATE(fecha) FROM `articulo` WHERE id_articulo = %s;"
     datos = (id_articulo)
     conn=mysql.connect()
     cursor=conn.cursor()
@@ -133,7 +139,10 @@ def articulo(id_articulo):
     conn.commit()
 
     categorias = nav.nav_categorias()
-    return render_template('articulo.html',articulo = articulo[0],categorias=categorias)
+    return render_template('articulo.html',
+                                        articulo = articulo[0],
+                                        categorias=categorias
+                                        )
 # vista panel de control
 @app.route('/panel/<id_autor>')
 @login_required
@@ -147,7 +156,10 @@ def panel(id_autor):
     conn.commit()
 
     categorias = nav.nav_categorias()
-    return render_template('panel.html',articulos = articulos,categorias=categorias)
+    return render_template('panel.html',
+                                    articulos = articulos,
+                                    categorias=categorias
+                                    )
 # funcion de eliminar articulo
 @app.route('/eliminar/<id_articulo>/<id_autor>')
 def eliminar(id_articulo,id_autor):
@@ -160,7 +172,9 @@ def eliminar(id_articulo,id_autor):
 
     cursor.execute(sql,(id))
     conn.commit()
-    return redirect(url_for('panel',id_autor = id_autor))
+    return redirect(url_for('panel',
+                                id_autor = id_autor
+                                ))
 # vista/funcion de editar registro
 @app.route('/editar/<id_articulo>/<id_autor>')
 def editar(id_articulo, id_autor):
@@ -174,7 +188,11 @@ def editar(id_articulo, id_autor):
     conn.commit()
 
     categorias = nav.nav_categorias()
-    return render_template('editar.html', categorias = categorias, id_articulo = id_articulo[0],id_autor = id_autor)
+    return render_template('editar.html',
+                                    categorias = categorias,
+                                    id_articulo = id_articulo[0],
+                                    id_autor = id_autor
+                                    )
 
 @app.route('/editar_articulo/<id_autor>', methods = ['POST'])
 def editar_articulo(id_autor):
@@ -189,7 +207,9 @@ def editar_articulo(id_autor):
     cursor=conn.cursor()
     cursor.execute(sql,datos)               # ejecuta la sentencia sql 
     conn.commit()
-    return redirect(url_for('panel',id_autor = id_autor))
+    return redirect(url_for('panel',
+                                id_autor = id_autor
+                                ))
 
 
 #login  y logout
@@ -211,15 +231,19 @@ def verificar():
             msg = f'Logeo exitoso {_correo} !'
             return redirect(url_for('index', msg = msg))
         else:
-            msg = 'Incorrect username / password !'
+            msg = 'usuario / password incorrecta'
 
-    return render_template('login.html', msg = msg)
+    return render_template('login.html', 
+                                    msg = msg
+                                    )
 
 @app.route('/login')
 @app.route('/login,<msg>')
 def login(msg=False):
     categorias = nav.nav_categorias()
-    return render_template('login.html',categorias=categorias,msg=msg)
+    return render_template('login.html',
+                                    categorias=categorias,msg=msg
+                                    )
 @app.route('/logout')
 def logout():
     session.pop('loggedin', None)
@@ -251,15 +275,22 @@ def registrarse_validacion():
             cursor.execute('INSERT INTO `autor`(nombre,apellido,correo,password) VALUES (%s, %s, %s, %s)', (_nombre,_apellido,_correo,_password ))
             conn.commit()
             msg = ' Te has registrado correctamente !'
-            return redirect(url_for('login', msg=msg))
+            return redirect(url_for('login',
+                                        msg=msg
+                                        ))
 
         
-    return redirect(url_for('registrarse', msg=msg))
+    return redirect(url_for('registrarse',
+                                        msg=msg
+                                        ))
 
 @app.route('/registrarse/<msg>')
 @app.route('/registrarse')
 def registrarse(msg=None):
     categorias = nav.nav_categorias()
-    return render_template('registrarse.html', msg=msg, categorias = categorias)
+    return render_template('registrarse.html',
+                                            msg=msg,
+                                            categorias = categorias
+                                            )
 if __name__ == '__main__':
     app.run(debug=True)

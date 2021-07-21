@@ -12,16 +12,21 @@ h1, h2, h3, h4, h5{
 p{
     font-family: 'Roboto', 'sans-serif';
 }
-
-div.transbox{
-    background:rgba(175, 250, 255, 0.514);
-    max-width: 70%;
+/*Articulo */
+.transbox{
+    background: white;
+    width: 80%;
+    max-width: 1600px;
     margin: auto;
     align-content: center;
     border-color: blue;
     border-style: double;
 }
+.art-main{
+    font-size: 1.2em;
+}
 
+/*Articulo */
 .ellipsis {
     max-width: 40px;
     text-overflow: ellipsis;
