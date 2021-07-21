@@ -3,10 +3,12 @@
 {% block title%}
 Login
 {{super()}}
-{% endblock %}
-
+{% endblock %} 
 {% block contenido %}
-    <h2>Login</h2>  
+<h2 class="titulopag">Login</h2> 
+<div class="registro">
+    <div style="width: 90%; margin:auto">  
+    
         {% if msg %}
             <h3>{{msg}}</h3>
         {% endif %}
@@ -17,10 +19,12 @@ Login
             <input class="form-control" type="email" placeholder="Ingrese su correo" aria-label="default input example" name="correo" required>
     
     
-            <label for="exampleFormControlTextarea1" class="form-label">Password:</label>
-            <input class="form-control" type="password" placeholder="Ingrese su password" aria-label="default input example" name="password" required>
+            <label for="exampleFormControlTextarea1" class="form-label">Contraseña:</label>
+            <input class="form-control" type="password" placeholder="Ingrese su contraseña" aria-label="default input example" name="password" required>
 
 
               <input type="submit" class="btn btn-success" value="Logear">
-        </form> 
+        </form>
+    </div>    
+</div>         
 {% endblock %}

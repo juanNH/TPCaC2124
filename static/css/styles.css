@@ -1,9 +1,16 @@
 body{
-    background: #cc8c8c;
+    background: #f4f4f4;
+    background-attachment: fixed
+    
 }
-h2{
-    text-align: center;
-    color: #ff0000;
+
+h1, h2, h3, h4, h5{
+    font-family: 'Nanum Gothic', 'sans-serif';
+    color:#ff0000;
+}
+
+p{
+    font-family: 'Roboto', 'sans-serif';
 }
 
 div.transbox{
@@ -21,23 +28,8 @@ div.transbox{
     overflow: hidden;
     white-space: nowrap;
 }
-.card{
-    width: 90%;
-    padding: 1em;
-    border-radius: 15px;
-    border: 3px dotted #ff0000;
-    height: 100%; 
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 1em;
-    margin-top: 1em;
 
-}
 
-.articontent{
-    text-align: center;
-    height: 100%;
-}
 
 .invisible{
     display: none;
@@ -45,18 +37,32 @@ div.transbox{
 
 /*Flexbox*/
 
-.container{
 
-    display: flex;
-    
-    flex-direction: column;
-    
-    min-width: 100%;
-    
-    padding: 0;
-    height:100%;
-    
-    }
+
+.card{
+    width: 90%;
+    padding: 1em;
+    border-radius: 15px;
+    border: 3px #646262;
+    height: 100%; 
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    box-shadow: -7px 9px 22px -3px #F9A59D;
+
+}
+.titulopag{
+    text-align: center;
+    margin:auto;
+    padding: 0.5em;
+
+}    
+
+.registro{
+    width: 50%;
+    margin: 0 auto;
+}
 
 header{
     width: 100%;
