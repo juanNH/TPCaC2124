@@ -82,7 +82,7 @@ def index(id_categoria = None, msg=None):
     for ind, val in categorias:
         catDict[ind]=val
 
-    return render_template('index.html',articulos = articulos,categorias=categorias, msg=msg, catDict=catDict)
+    return render_template('index.html', articulos = articulos,categorias=categorias, msg=msg, catDict=catDict)
 
 # vista registro
 @app.route('/registro')
@@ -94,11 +94,13 @@ def registro():
     cursor.execute(autor) 
     autores = cursor.fetchall()  
     conn.commit()
+    
 
 
     categorias = nav.nav_categorias()
-    return render_template('registro.html',autores = autores,categorias=categorias)
+    return render_template('registro.html', autores = autores,categorias=categorias)
 # funcion crear publicacion
+
 @app.route('/crear', methods = ['POST'])
 def crear():
     _titulo = request.form['titulo']
