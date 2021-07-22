@@ -1,10 +1,12 @@
 {% extends 'layout.html' %}
+
 {% block title%}
 Registro
 {{super()}}
 {% endblock %}
 
 {% block contenido %}
+
 <h3 class=titulopag>Nuevo Post</h3>
 <div class=registro>    
     <form action="/crear" method="POST" enctype="multipart/form-data">

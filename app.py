@@ -112,6 +112,7 @@ def registro():
 # funcion crear publicacion
 
 @app.route('/crear', methods = ['POST'])
+@login_required
 def crear():
     _titulo = request.form['titulo']
     _contenido = request.form['contenido']
@@ -137,6 +138,7 @@ def crear():
     return redirect(url_for('index'))
 
 @app.route('/uploads/<nombreFoto>')
+@login_required
 def uploads(nombreFoto):
     return send_from_directory(app.config['CARPETA'], nombreFoto)
 # vistas de cada articulo de manera individual
@@ -177,6 +179,7 @@ def panel(id_autor):
                                     )
 # funcion de eliminar articulo
 @app.route('/eliminar/<id_articulo>/<id_autor>')
+@login_required
 def eliminar(id_articulo,id_autor):
     
     sql = "DELETE FROM `articulo` WHERE id_articulo = %s;"
@@ -192,6 +195,7 @@ def eliminar(id_articulo,id_autor):
                                 ))
 # vista/funcion de editar registro
 @app.route('/editar/<id_articulo>/<id_autor>')
+@login_required
 def editar(id_articulo, id_autor):
 
     sql = "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `articulo`ar INNER JOIN `autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_articulo = %s;"
@@ -210,6 +214,7 @@ def editar(id_articulo, id_autor):
                                     )
 
 @app.route('/editar_articulo/<id_autor>', methods = ['POST'])
+@login_required
 def editar_articulo(id_autor):
     _id_articulo = request.form['id_articulo']
     _titulo = request.form['titulo']

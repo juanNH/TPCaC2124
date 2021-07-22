@@ -6,6 +6,7 @@ Inicio
 {% endblock %}
 
 {% block contenido %}
+
     {{session.correo}}    
     {{session.id_autor}} 
     {{session.loggedin}}
@@ -26,7 +27,6 @@ Inicio
                             <div class="card-body ">
                                 <h5 class="card-title">{{catDict[articulo.3]}}</h5>
                                 <p class="card-text">{{articulo.1}}</p>
-                                <p>{{articulo.7}}</p>
                             </div>
                             <div class="card-footer text-muted">
                                 <p>Publicado el: {{articulo.5}}</p>
