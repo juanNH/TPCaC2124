@@ -1,5 +1,5 @@
 body{
-    background: #f4f4f4;
+    background: #c9c2c2;
     background-attachment: fixed
     
 }
@@ -82,6 +82,7 @@ header{
     border-bottom: #1b262c;
     border-bottom-width: 1px;
     border-bottom-style: solid;
+    background-color: #c9c2c2;
 }
 .titulo-header{
     text-align: center;
