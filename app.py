@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session,flash
 from flaskext.mysql import MySQL
 import MySQLdb.cursors
 import re
@@ -138,7 +138,7 @@ def crear():
     return redirect(url_for('index'))
 
 @app.route('/uploads/<nombreFoto>')
-@login_required
+
 def uploads(nombreFoto):
     return send_from_directory(app.config['CARPETA'], nombreFoto)
 # vistas de cada articulo de manera individual
@@ -236,7 +236,6 @@ def editar_articulo(id_autor):
 
 @app.route('/verificar', methods =['GET', 'POST'])
 def verificar():
-    msg = ''
     if (request.method == 'POST' and 'correo' in request.form and 'password' in request.form):
         _correo = request.form['correo']
         _password = request.form['password']
@@ -248,13 +247,14 @@ def verificar():
             session['loggedin'] = True
             session['id_autor'] = cuenta[0] 
             session['correo'] = cuenta[3]
-            msg = f'Logeo exitoso {_correo} !'
-            return redirect(url_for('index', msg = msg))
+
+            flash(f'Bienvenido {_correo} !')
+            return redirect(url_for('index'))
         else:
-            msg = 'usuario / password incorrecta'
+            flash(f'Por favor revisa el correo/contraseña !')
 
     return render_template('login.html', 
-                                    msg = msg
+
                                     )
 
 @app.route('/login')
@@ -274,7 +274,6 @@ def logout():
 #registrar usuario
 @app.route('/registrarse_validacion', methods =['GET', 'POST'])
 def registrarse_validacion():
-    msg = ''
     
     if request.method == 'POST' and 'correo' in request.form and 'nombre' in request.form and 'apellido' in request.form and 'password' in request.form and 'password2' in request.form:
         _correo = request.form['correo']
@@ -288,20 +287,28 @@ def registrarse_validacion():
         cursor.execute('SELECT * FROM `autor` WHERE correo = %s', (_correo, ))
         account = cursor.fetchone()
         if account:
-            msg = 'Correo ya registrado!'
+            flash('Correo ya registrado en el sistema')
         elif _password != _password2:
-            msg = 'Las password deben coincidir'
+            flash('Las contraseñas deben coincidir')
         else:
             cursor.execute('INSERT INTO `autor`(nombre,apellido,correo,password) VALUES (%s, %s, %s, %s)', (_nombre,_apellido,_correo,_password ))
             conn.commit()
-            msg = ' Te has registrado correctamente !'
-            return redirect(url_for('login',
-                                        msg=msg
-                                        ))
+##
+            conn=mysql.connect()
+            cursor=conn.cursor()
+            cursor.execute('SELECT * FROM `autor` WHERE correo = % s AND password = % s;', (_correo, _password))
+            cuenta = cursor.fetchone()  
+            if cuenta:
+                session['loggedin'] = True
+                session['id_autor'] = cuenta[0] 
+                session['correo'] = cuenta[3]  
+                flash(f"""Registro exitoso!
+                    Bienvenido {_correo} !""")
+                return redirect(url_for('index'))
+
 
         
     return redirect(url_for('registrarse',
-                                        msg=msg
                                         ))
 
 @app.route('/registrarse/<msg>')
