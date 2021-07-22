@@ -32,12 +32,18 @@ Registrarse
         </div>  
         <div class="col-auto">
             <label for="exampleFormControlTextarea1" class="form-label">Repita su contraseña:</label>
-            <input class="form-control" type="password" placeholder="Ingrese nuevamente su contraseña" aria-label="default input example" name="password2" required>
+            <input class="form-control" type="password" placeholder="Ingrese nuevamente" aria-label="default input example" name="password2" required>
         </div>
     </div>
-    {% if msg != None %}
-        <h1>{{msg}}</h1>
+    {% with messages = get_flashed_messages()%}
+    {% if messages%}
+        {% for message in messages %}
+            <div class="message alert-succes">
+              <h1> {{message}} </h1> 
+            </div>
+        {% endfor %}
     {% endif %}
+    {% endwith %}
 
     
 

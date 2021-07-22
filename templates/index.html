@@ -7,9 +7,17 @@ Inicio
 
 {% block contenido %}
 
-    {{session.correo}}    
-    {{session.id_autor}} 
-    {{session.loggedin}}
+    
+    {% with messages = get_flashed_messages()%}
+    {% if messages%}
+        {% for message in messages %}
+            <div class="message alert-succes">
+              <h1> {{message}} </h1> 
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
 
     {% if msg == None %}
     
