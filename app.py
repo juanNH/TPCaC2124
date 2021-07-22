@@ -11,6 +11,8 @@ app = Flask(__name__)
 
 app.secret_key = 'pepe'
 
+
+
 #conexion a la base de datos        
 mysql = MySQL()
 #bd heroku
@@ -25,6 +27,9 @@ app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
 
 mysql.init_app(app)
+
+CARPETA = os.path.join('uploads') # al path del proyecto le adjunto ‘upload’
+app.config['CARPETA']=CARPETA
 
 # clase nav para pedir las categorias a las vistas
 class nav:
@@ -67,11 +72,11 @@ def index(id_categoria = None, msg=None):
         print(x)
     print('.')
     if id_categoria != None :
-        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido) FROM `articulo` a INNER JOIN `categoria` c ON (a.id_categoria = c.id_categoria) INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE a.id_categoria = %s Order by a.fecha DESC;"
+        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen FROM `articulo` a INNER JOIN `categoria` c ON (a.id_categoria = c.id_categoria) INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE a.id_categoria = %s Order by a.fecha DESC;"
         datos = (id_categoria)
         cursor.execute(sql,datos) 
     else:
-        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido) FROM `articulo` a INNER JOIN `autor` au ON (a.id_autor = au.id_autor) ORDER BY fecha DESC"
+        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen FROM `articulo` a INNER JOIN `autor` au ON (a.id_autor = au.id_autor) ORDER BY fecha DESC"
         cursor.execute(sql) 
     
    
@@ -111,12 +116,17 @@ def crear():
     _titulo = request.form['titulo']
     _contenido = request.form['contenido']
     _id_categoria = request.form['id_categoria']
+    _imagen = request.files['imagen']
     _id_autor = request.form['id_autor']
     now = datetime.now()
     tiempo = now.strftime("%Y/%m/%d %H:%M:%S")   
-    sql = "INSERT INTO `articulo` (`titulo`,`contenido`,`fecha`,`id_categoria`,`id_autor`) VALUES  (%s, %s,%s,%s,%s);"
+    if _imagen.filename !='':
+        id_img = now.strftime("%Y-%m-%d-%H-%M-%S") 
+        nuevoNombreFoto = id_img+_imagen.filename
+        _imagen.save("uploads/"+nuevoNombreFoto)
+    sql = "INSERT INTO `articulo` (`titulo`,`contenido`,`fecha`,`id_categoria`,`id_autor`,`imagen`) VALUES  (%s,%s,%s,%s,%s,%s);"
 
-    datos=(_titulo,_contenido,tiempo,_id_categoria,_id_autor)
+    datos=(_titulo,_contenido,tiempo,_id_categoria,_id_autor,nuevoNombreFoto)
 
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -125,7 +135,12 @@ def crear():
 
     categorias = nav.nav_categorias()
     return redirect(url_for('index'))
+
+@app.route('/uploads/<nombreFoto>')
+def uploads(nombreFoto):
+    return send_from_directory(app.config['CARPETA'], nombreFoto)
 # vistas de cada articulo de manera individual
+
 @app.route('/articulo/<id_articulo>')
 def articulo(id_articulo):
     

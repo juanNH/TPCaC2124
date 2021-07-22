@@ -10,12 +10,12 @@ Registro
     <form action="/crear" method="POST" enctype="multipart/form-data">
         
         
-        <label for="exampleFormControlTextarea1" class="form-label">Titulo:</label>
+        <label for="titulo" class="form-label">Titulo:</label>
         <input class="form-control" type="text" placeholder="Ingrese titulo" aria-label="default input example" name="titulo" required>
 
         <input class="form-control invisible" type="text" aria-label="default input example" name="id_autor" value="{{session.id_autor}}" >
 
-        <label for="exampleFormControlTextarea1" class="form-label">Categorias:</label>
+        <label for="id_categoria" class="form-label">Categorias:</label>
         <div class="input-group mb-3">
             <select class="form-select" id="inputGroupSelect03" aria-label="Example select with button addon" name="id_categoria" >
                 {% for categoria in categorias %}
@@ -23,9 +23,12 @@ Registro
                 {% endfor %}
             </select>
         </div>
-
+        <div class="mb-3">
+            <label for="imagen" class="form-label">Ingrese la imagen del articulo: </label>
+            <input class="form-control" type="file" id="formFile" name='imagen' required>
+          </div>
           <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Articulo:</label>
+            <label for="contenido" class="form-label">Articulo:</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="contenido" required></textarea>
           </div>
           <input type="submit" class="btn btn-success" value="Crear">
