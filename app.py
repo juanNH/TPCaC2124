@@ -137,6 +137,7 @@ def crear():
     return redirect(url_for('index'))
 
 @app.route('/uploads/<nombreFoto>')
+@app.route('/articulo/uploads/<nombreFoto>')
 
 def uploads(nombreFoto):
     return send_from_directory(app.config['CARPETA'], nombreFoto)
@@ -145,7 +146,7 @@ def uploads(nombreFoto):
 @app.route('/articulo/<id_articulo>')
 def articulo(id_articulo):
     
-    sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido) FROM `articulo` a INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE id_articulo = %s;"
+    sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha),a.imagen, CONCAT(au.nombre,' ',au.apellido) FROM `articulo` a INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE id_articulo = %s;"
 
     datos = (id_articulo)
     conn=mysql.connect()
