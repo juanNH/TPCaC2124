@@ -8,4 +8,3 @@ Flask-Login==0.5.0
 Flask-MySQL==1.5.2
 Flask-MySQLdb==0.2.0
 Flask-Session== 0.4.0
-Python==3.8.5
