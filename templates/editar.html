@@ -29,12 +29,22 @@ Editar
                 {% endfor %}
             </select>
         </div>
+        <div class="mb-3">
+            <label  class="form-label">Imagen actual del articulo: </label>
+            <img  src="{{ url_for('uploads', nombreFoto=id_articulo.7)}}" class="img-thumbnail imagen-edit" alt="Imagen">
+            <br> 
+        </div>
+        
+        <div class="mb-3">
+            <label for="imagen" class="form-label">Nueva imagen: </label>
+            <input class="form-control" type="file" id="formFile" name='imagen' value="{{id_articulo.7}}">
+        </div>
 
-          <div class="mb-3">
+        <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">Articulo:</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="contenido" required>{{id_articulo.2}}</textarea>
-          </div>
-          <input type="submit" class="btn btn-success" value="Editar">
+        </div>
+        <input type="submit" class="btn btn-success" value="Editar">
     </form> 
 
 
