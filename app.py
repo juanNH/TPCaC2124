@@ -9,21 +9,22 @@ from functools import wraps
 
 app = Flask(__name__)
 
-app.secret_key = os.environ.get('SECRET')
+app.secret_key = 'Luego remplazar'
+#os.environ.get('SECRET')
 
 
 #conexion a la base de datos        
 mysql = MySQL()
 #bd heroku
-app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-04.cleardb.com'
-app.config['MYSQL_DATABASE_USER'] = 'b3dfc31564e837'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'c35271f0'
-app.config['MYSQL_DATABASE_DB'] = 'heroku_b18c9020801b5ab'
+#app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-04.cleardb.com'
+#app.config['MYSQL_DATABASE_USER'] = 'b3dfc31564e837'
+#app.config['MYSQL_DATABASE_PASSWORD'] = 'c35271f0'
+#app.config['MYSQL_DATABASE_DB'] = 'heroku_b18c9020801b5ab'
 #local 
-#app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-#app.config['MYSQL_DATABASE_USER'] = 'root'
-#app.config['MYSQL_DATABASE_PASSWORD'] = ''
-#app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
 
 mysql.init_app(app)
 
@@ -164,7 +165,7 @@ def articulo(id_articulo):
 @app.route('/panel/<id_autor>')
 @login_required
 def panel(id_autor):
-    sql= "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, ar.fecha, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `articulo`ar INNER JOIN `autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_autor =%s ;"
+    sql= "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, ar.fecha, CONCAT(au.nombre,' ',au.apellido), c.categoria, ar.fecha_edicion FROM `articulo` ar INNER JOIN `autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_autor =%s ;"
     datos = (id_autor)
     conn=mysql.connect()
     cursor=conn.cursor()
@@ -198,7 +199,7 @@ def eliminar(id_articulo,id_autor):
 @login_required
 def editar(id_articulo, id_autor):
 
-    sql = "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, CONCAT(au.nombre,' ',au.apellido), c.categoria FROM `articulo`ar INNER JOIN `autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_articulo = %s;"
+    sql = "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, CONCAT(au.nombre,' ',au.apellido), c.categoria, ar.imagen FROM `articulo` ar INNER JOIN `autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_articulo = %s;"
     datos = (id_articulo)
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -220,11 +221,29 @@ def editar_articulo(id_autor):
     _titulo = request.form['titulo']
     _contenido = request.form['contenido']
     _id_categoria = request.form['id_categoria']
+    _imagen = request.files['imagen']
+    now = datetime.now()
+    tiempo = now.strftime("%Y/%m/%d %H:%M:%S") 
 
-    sql="UPDATE `articulo` SET `titulo`=%s ,`contenido`=%s, `id_categoria`=%s WHERE id_articulo=%s;"
-    datos=(_titulo,_contenido,_id_categoria,_id_articulo)  # crea la sentencia sql
+    sql="UPDATE `articulo` SET `titulo`=%s ,`contenido`=%s, `id_categoria`=%s, `fecha_edicion` = %s WHERE id_articulo=%s;"
+    datos=(_titulo, _contenido, _id_categoria, tiempo, _id_articulo)  # crea la sentencia sql
     conn=mysql.connect()
     cursor=conn.cursor()
+
+
+  
+    if _imagen.filename !='':
+        id_img = now.strftime("%Y-%m-%d-%H-%M-%S") 
+        nuevoNombreFoto = id_img+_imagen.filename
+        _imagen.save("uploads/"+nuevoNombreFoto)
+
+        cursor.execute("SELECT imagen FROM `articulo` WHERE id_articulo=%s",(_id_articulo))
+
+        fila=cursor.fetchall()   # fila va a tener un solo registro y 1 solo campo
+        os.remove(os.path.join(app.config['CARPETA'],fila[0][0]))
+        cursor.execute("UPDATE `articulo` SET imagen=%s WHERE id_articulo=%s",(nuevoNombreFoto, _id_articulo))
+        conn.commit()
+
     cursor.execute(sql,datos)               # ejecuta la sentencia sql 
     conn.commit()
     return redirect(url_for('panel',
