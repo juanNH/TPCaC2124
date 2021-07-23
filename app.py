@@ -9,7 +9,7 @@ from functools import wraps
 
 app = Flask(__name__)
 
-app.secret_key = 'pepe'
+app.secret_key = os.environ.get('SECRET')
 
 
 #conexion a la base de datos        
