@@ -55,10 +55,10 @@ def login_required(test):
 
 
 # vista index
-@app.route('/,<string:msg>')
+@app.route('/,<string:palabra>')
 @app.route('/,<int:id_categoria>')
 @app.route('/')
-def index(id_categoria = None, msg=None):
+def index(id_categoria = None,palabra = None):
     conn=mysql.connect()
     print(conn)
     print(mysql)
@@ -71,7 +71,12 @@ def index(id_categoria = None, msg=None):
     for x in myresult:
         print(x)
     print('.')
-    if id_categoria != None :
+    if palabra != None:
+        palabra = "%"+palabra+"%"
+        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen FROM `articulo` a INNER JOIN `categoria` c ON (a.id_categoria = c.id_categoria) INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE a.titulo LIKE   %s   Order by a.fecha DESC;"
+        datos = (palabra)
+        cursor.execute(sql,datos)
+    elif id_categoria != None :
         sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen FROM `articulo` a INNER JOIN `categoria` c ON (a.id_categoria = c.id_categoria) INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE a.id_categoria = %s Order by a.fecha DESC;"
         datos = (id_categoria)
         cursor.execute(sql,datos) 
@@ -90,7 +95,7 @@ def index(id_categoria = None, msg=None):
 
     return render_template('index.html',
                             articulos = articulos,
-                            categorias=categorias, msg=msg,
+                            categorias=categorias,
                             catDict=catDict
                             )
 
@@ -339,6 +344,14 @@ def registrarse(msg=None):
                                             msg=msg,
                                             categorias = categorias
                                             )
+
+@app.route('/buscador', methods = ['POST'])
+def buscador():
+    _palabra = request.form['palabra']
+
+    return redirect(url_for('index',
+                                    palabra = _palabra
+                                    ))
 if __name__ == '__main__':
     app.run(debug=True)
         
