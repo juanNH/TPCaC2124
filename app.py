@@ -12,7 +12,6 @@ app = Flask(__name__)
 app.secret_key = 'pepe'
 
 
-
 #conexion a la base de datos        
 mysql = MySQL()
 #bd heroku
@@ -158,7 +157,7 @@ def articulo(id_articulo):
     categorias = nav.nav_categorias()
     return render_template('articulo.html',
                                         articulo = articulo[0],
-                                        categorias=categorias
+                                        categorias=categorias,
                                         )
 # vista panel de control
 @app.route('/panel/<id_autor>')
@@ -231,6 +230,8 @@ def editar_articulo(id_autor):
                                 id_autor = id_autor
                                 ))
 
+#archivo en sidebar
+
 
 #login  y logout
 
@@ -293,7 +294,6 @@ def registrarse_validacion():
         else:
             cursor.execute('INSERT INTO `autor`(nombre,apellido,correo,password) VALUES (%s, %s, %s, %s)', (_nombre,_apellido,_correo,_password ))
             conn.commit()
-##
             conn=mysql.connect()
             cursor=conn.cursor()
             cursor.execute('SELECT * FROM `autor` WHERE correo = % s AND password = % s;', (_correo, _password))

@@ -1,32 +1,28 @@
 body{
-    background: #c9c2c2;
+    background: #f4f4f4;
     background-attachment: fixed
     
 }
 
 h1, h2, h3, h4, h5{
     font-family: 'Nanum Gothic', 'sans-serif';
-    color:#ff0000;
+    color:#0a349a;
 }
 
 p{
     font-family: 'Roboto', 'sans-serif';
 }
+
 /*Articulo */
-.transbox{
-    background: white;
-    width: 80%;
-    max-width: 1600px;
-    margin: auto;
-    align-content: center;
-    border-color: blue;
-    border-style: double;
-}
+
+.boxed {
+    clear: both;
+    margin: 10px 3% 10px 3%;
+}    
 .art-main{
     font-size: 1.2em;
 }
 
-/*Articulo */
 .ellipsis {
     max-width: 40px;
     text-overflow: ellipsis;
@@ -40,23 +36,27 @@ p{
     display: none;
 }
 
-/*Flexbox*/
-
-
-
-.card{
-    width: 90%;
-    padding: 1em;
-    border-radius: 15px;
+/*CSS de las cards*/
+.indexcard{
+    width: 100%;
+    border-radius: 10px;
     border: 3px #646262;
     height: 100%; 
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 1em;
-    margin-top: 1em;
-    box-shadow: -7px 9px 22px -3px #F9A59D;
+    margin-bottom: 2em;
+    margin-top: 2em;
+    box-shadow: -7px 9px 22px -3px #27a1c4;
 
 }
+.card-header{
+    background-color: #fde56c;
+}
+.card-footer{
+    background-color: #8fcee1;
+}
+
+
 .titulopag{
     text-align: center;
     margin:auto;

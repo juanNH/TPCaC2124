@@ -24,32 +24,56 @@ Inicio
     {% else %}
         {{msg}}
     {% endif %}
-    {% for articulo in articulos %}
     <div class="container">
         <div class="row">
-            <div class="col-12">  
+            <div class="col-8">
+    {% for articulo in articulos %}
+
+             
                 <div class="articulo">
+                    
                     <a href="{{url_for('articulo', id_articulo = articulo.0)}}">
-                        <div class="card">        
-                            <img src="uploads/{{articulo.7}}" class="card-img-top" alt="...">
+                        <div class="card indexcard">        
+                            <img src="uploads/{{articulo.7}}" class="card-img-top" alt="..." style="max-width: 100%; height: auto;">
                             <div class="card-body ">
                                 <h5 class="card-title">{{catDict[articulo.3]}}</h5>
                                 <p class="card-text">{{articulo.1}}</p>
+                                
+                    </a>
+                            <p class="card-text">{{articulo.2[:500]}}</p> 
+                            <a href="{{url_for('articulo', id_articulo = articulo.0)}}">Seguir Leyendo</a>
+                   
+    
                             </div>
                             <div class="card-footer text-muted">
                                 <p>Publicado el: {{articulo.5}}</p>
                             </div>   
                         </div>
-                    </a>
-                </div>
-            </div>  
+                </div>  
+    {% endfor %}
+            </div>
             <div class="col-4">
-
+                <br>
+                <div class="well">
+                    <h3>Subscribete</h3>
+                    <p> Dejanos tu mail!</p>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="email">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+                <br>
+                <div class="card" style="height: auto;">
+                    <h5 class="card-header">Acerca del Blog</h5>
+                    <div class="card-body">
+                      Info sobre el blog y etc Suspendisse ut congue enim. Fusce vitae commodo felis, ut pretium purus.
+                    </div>
+                  </div>
             </div>
         </div>    
     </div>
-
-    {% endfor %}
 
 
 {% endblock %}
