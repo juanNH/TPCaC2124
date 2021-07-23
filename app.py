@@ -321,5 +321,5 @@ def registrarse(msg=None):
                                             categorias = categorias
                                             )
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
         
