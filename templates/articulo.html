@@ -6,18 +6,20 @@
 {% endblock %}
 
 {% block contenido %}
-
+<article>
             <h1 class="text-center">{{articulo.1}}</h1>
             <ul class="list-inline text-center">
                 <li class="list-inline-item">{{articulo.7}} |</li>
-                <li class="list-inline-item">Categoria |</li>
+                <li class="list-inline-item">{{catDict[articulo.3]}} |</li>
                 <li class="list-inline-item">{{articulo.5}}</li>
             </ul> 
-            <div class="art-main boxed">
-            <img src="uploads/{{articulo.6}}" alt="imagen relacionada con el art" style="max-width: 100%; height: auto;">
+            <div class="boxed">
+            <div>    
+            <img src="uploads/{{articulo.6}}" alt="imagen relacionada con el art" style="width: 100%; height: auto;">
+            </div>
             <br>
             <br>
-            <p>{{articulo.2}}</p>
-        </div>
-</div>
+            <p class="art-main">{{articulo.2}}</p>
+            </div>
+</article>
 {% endblock %}

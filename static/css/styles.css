@@ -18,10 +18,12 @@ p{
 .boxed {
     clear: both;
     margin: 10px 3% 10px 3%;
-}    
-.art-main{
     font-size: 1.2em;
     text-align: justify;
+}    
+
+.art-main{
+    text-indent: 2em;
 }
 
 .ellipsis {
@@ -47,7 +49,7 @@ p{
     margin-right: auto;
     margin-bottom: 2em;
     margin-top: 2em;
-    box-shadow: -7px 9px 22px -3px #27a1c4;
+    box-shadow: -14px 16px 39px -14px #27a1c4;
 
 }
 .card-header{
@@ -113,4 +115,14 @@ footer{
         padding-top: 100px;
     }
 
+    .column {
+        width: 48%;
+      }
+
 }
+
+@media only screen and (max-width: 480px) {
+    .column {
+      width: 98%;
+    }
+}   

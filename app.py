@@ -162,9 +162,13 @@ def articulo(id_articulo):
     conn.commit()
 
     categorias = nav.nav_categorias()
+    catDict = {}
+    for ind, val in categorias:
+        catDict[ind]=val
     return render_template('articulo.html',
                                         articulo = articulo[0],
                                         categorias=categorias,
+                                        catDict=catDict
                                         )
 # vista panel de control
 @app.route('/panel/<id_autor>')
