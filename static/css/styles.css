@@ -109,6 +109,7 @@ footer{
     width: 300px;
     display: block;
 }
+
 @media screen and (max-width: 768px) {
 
     .titulo-header{
