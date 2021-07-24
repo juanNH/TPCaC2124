@@ -3,7 +3,7 @@ body{
     background-attachment: fixed 
 }
 .box{
-    min-height: calc(100vh - 35vh - 350px);
+    min-height: calc(100vh - 35vh - 100px);
 }
 
 h1, h2, h3, h4, h5{
@@ -145,9 +145,6 @@ footer{
     height: 100%;
     margin-top:30px;
     max-height: 700px;
-}
-.contenedor-l-d{
-    
 }
 .left-footer{
     width: 49%;
