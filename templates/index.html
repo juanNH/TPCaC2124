@@ -11,12 +11,9 @@ Inicio
     {% with messages = get_flashed_messages()%}
     {% if messages%}
         {% for message in messages %}
-            
-                <div class="alert">
-                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                 {{message}} 
-                </div> 
-            
+            <div class="message alert-succes">
+              <h1> {{message}} </h1> 
+            </div>
         {% endfor %}
     {% endif %}
     {% endwith %}
@@ -29,7 +26,7 @@ Inicio
     {% endif %}
     <div class="container">
         <div class="row">
-            <div class="col-sm-9">
+            <div class="col-sm-12 col-lg-9">
     {% for articulo in articulos %}
 
              
@@ -55,7 +52,8 @@ Inicio
                 </div>  
     {% endfor %}
             </div>
-            <div class="col-sm-3">
+
+            <div class="col-sm-12 col-lg-3">
                 <br>
                 <div class="well">
                     <h3>Subscribete</h3>
