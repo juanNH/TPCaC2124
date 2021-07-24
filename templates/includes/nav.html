@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light " >
     <div class="container-fluid">
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,38 +7,38 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{url_for('index')}}">Inicio</a>
+            <a class="nav-link active " aria-current="page" href="{{url_for('index')}}">Inicio</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Categorias
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               {% for categoria in categorias %}
-                <li><a class="dropdown-item" href="{{url_for('index',id_categoria=categoria[0])}}">{{categoria.1}}</a></li>
+                <li><a class="dropdown-item " href="{{url_for('index',id_categoria=categoria[0])}}">{{categoria.1}}</a></li>
               {% endfor %}
             </ul>
           </li>
           {% if session.loggedin %}
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('registro')}}">Crear Post</a>
+              <a class="nav-link " href="{{url_for('registro')}}">Crear Post</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('panel', id_autor=session.id_autor)}}">Panel de administracion</a>
+              <a class="nav-link " href="{{url_for('panel', id_autor=session.id_autor)}}">Panel de administracion</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+              <a class="nav-link " href="{{url_for('logout')}}">Logout</a>
             </li>
           {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('login')}}">Login</a>
+              <a class="nav-link " href="{{url_for('login')}}">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('registrarse')}}">Registrarse</a>
+              <a class="nav-link " href="{{url_for('registrarse')}}">Registrarse</a>
             </li>
           {% endif %}
 
-          <li class="nav-item ">
+          <li class="nav-item">
             <form class="d-flex"  action="/buscador" method="POST" >
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" required name='palabra'>
                 <button class="btn btn-outline-success" type="submit">Buscar</button>
