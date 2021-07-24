@@ -344,12 +344,11 @@ def registrarse_validacion():
     return redirect(url_for('registrarse',
                                         ))
 
-@app.route('/registrarse/<msg>')
+
 @app.route('/registrarse')
-def registrarse(msg=None):
+def registrarse():
     categorias = nav.nav_categorias()
     return render_template('registrarse.html',
-                                            msg=msg,
                                             categorias = categorias
                                             )
 
