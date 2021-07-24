@@ -1,7 +1,9 @@
 body{
     background: #f4f4f4;
-    background-attachment: fixed
-    
+    background-attachment: fixed 
+}
+.box{
+    min-height: calc(100vh - 35vh - 350px);
 }
 
 h1, h2, h3, h4, h5{
@@ -93,17 +95,7 @@ header{
     padding-top: 15vh;
 }
 
-footer{
-    width: 100%;
-    background: #1b1e1f;
-    border: 1px solid #333;
-    color: #d1d4d6;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: center;
-    box-shadow: 0px 0px 20px gray;
-    margin-top:30px;
-}
+
 
 .imagen-edit{
     width: 300px;
@@ -139,8 +131,51 @@ footer{
 .closebtn:hover {
     color: black;
 } 
+/* footer*/
+footer{
+    width: 100%;
+    background: #1b1e1f;
+    border-top: 1px solid #333;
+    color: #d1d4d6;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+    box-shadow: 0px 0px 20px gray;
+    height: 100%;
+    margin-top:30px;
+    max-height: 700px;
+}
 
-@media screen and (max-width: 768px) {
+.left-footer{
+    width: 49%;
+    background: #1b1e1f;
+    border: 5px solid rgb(167, 13, 13);
+    height: 100%;
+    display: inline-block;
+    max-width: 700px;
+}
+.right-footer{
+    width: 49%;
+    background: #1b1e1f;
+    border: 5px solid rgb(167, 13, 13);
+    height: 100%;
+    display: inline-block;
+    max-width: 700px;
+   
+}
+.copyright-footer{
+    background-color: black;
+    height: 100%;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 40px;
+}
+.icon{
+    height: 50px;
+    width: 50px;
+}
+@media screen and (max-width: 991px) {
 
     .titulo-header{
         padding-top: 100px;
@@ -149,6 +184,16 @@ footer{
     .column {
         width: 48%;
       }
+    .left-footer{
+        display: block;
+        margin:auto;
+        width: 100%;
+    }
+    .right-footer{
+        display: block;
+        margin:auto;
+        width: 100%;
+    }
 
 }
 
