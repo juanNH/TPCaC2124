@@ -11,9 +11,10 @@ Inicio
     {% with messages = get_flashed_messages()%}
     {% if messages%}
         {% for message in messages %}
-            <div class="message alert-succes">
-              <h1> {{message}} </h1> 
-            </div>
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+             {{message}} 
+        </div>
         {% endfor %}
     {% endif %}
     {% endwith %}
