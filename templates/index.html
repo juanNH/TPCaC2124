@@ -18,11 +18,10 @@ Inicio
     {% endif %}
     {% endwith %}
 
-
-    {% if msg == None %}
-    
-    {% else %}
-        {{msg}}
+    {% if not articulos %}
+       <div >
+            <h2>No hay articulos disponibles</h2>
+       </div>
     {% endif %}
     <div class="container">
         <div class="row">
