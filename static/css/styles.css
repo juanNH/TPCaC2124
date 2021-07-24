@@ -109,6 +109,36 @@ footer{
     width: 300px;
     display: block;
 }
+.formcard{
+    height: 370px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 400px;
+    background-color: rgba(183, 174, 135, 0.5) !important;
+}
+.alert {
+    padding: 20px;
+    background-color:#fde56c; /* Red */
+    color: #18786d;
+    margin-bottom: 15px;
+}
+
+    /* The close button */
+.closebtn {
+    margin-left: 15px;
+    color:#18786d;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    /* When moving the mouse over the close button */
+.closebtn:hover {
+    color: black;
+} 
 
 @media screen and (max-width: 768px) {
 
