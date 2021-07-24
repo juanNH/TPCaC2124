@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session,flash
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, flash
 from flaskext.mysql import MySQL
 import MySQLdb.cursors
 import re

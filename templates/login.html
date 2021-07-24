@@ -5,7 +5,6 @@ Login
 {{super()}}
 {% endblock %} 
 {% block contenido %}
-<h2 class="titulopag">Login</h2> 
 <div class="registro">
     <div style="width: 90%; margin:auto">  
     
@@ -13,27 +12,51 @@ Login
             <h3>{{msg}}</h3>
         {% endif %}
         <form action="/verificar" method="POST" enctype="multipart/form-data">
-        
-        
-            <label for="exampleFormControlTextarea1" class="form-label">Ingrese email:</label>
-            <input class="form-control" type="email" placeholder="Ingrese su correo" aria-label="default input example" name="correo" required>
-    
-    
-            <label for="exampleFormControlTextarea1" class="form-label">Contraseña:</label>
-            <input class="form-control" type="password" placeholder="Ingrese su contraseña" aria-label="default input example" name="password" required>
-
+            <div class="container">
+                <div class="d-flex justify-content-center h-100">
+                    <div class="card formcard">
+                        <div class="card-header text-center">
+                            <h2>Login</h2>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="input-group form-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input class="form-control" type="email" placeholder="Ingrese su correo" aria-label="default input example" name="correo" required>     
+                                </div>
+                                <br>
+                                <div class="input-group form-group">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    <input class="form-control" type="password" placeholder="Ingrese su contraseña" aria-label="default input example" name="password" required>
+                                </div>
+                                <br>
+                                <div class="form-group text-center">
+                                    <input type="submit" class="btn btn-success" value="Logear">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-center links">
+                                <span>No tienes una cuenta? </span><a href="#"> Registrarse</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {% with messages = get_flashed_messages()%}
             {% if messages%}
                 {% for message in messages %}
                     <div class="message alert-succes">
-                      <h1> {{message}} </h1> 
+                        <br>
+                      <h5> {{message}} <h5> 
                     </div>
                 {% endfor %}
             {% endif %}
             {% endwith %}
 
-            <input type="submit" class="btn btn-success" value="Logear">
+            
         </form>
     </div>    
 </div>         
 {% endblock %}
+
