@@ -133,6 +133,7 @@ header{
 } 
 /* footer*/
 footer{
+    
     width: 100%;
     background: #1b1e1f;
     border-top: 1px solid #333;
@@ -145,7 +146,9 @@ footer{
     margin-top:30px;
     max-height: 700px;
 }
-
+.contenedor-l-d{
+    
+}
 .left-footer{
     width: 49%;
     background: #1b1e1f;
@@ -153,6 +156,8 @@ footer{
     height: 100%;
     display: inline-block;
     max-width: 700px;
+    vertical-align: top;
+
 }
 .right-footer{
     width: 49%;
@@ -161,7 +166,8 @@ footer{
     height: 100%;
     display: inline-block;
     max-width: 700px;
-   
+    vertical-align: top;
+
 }
 .copyright-footer{
     background-color: black;
@@ -174,6 +180,13 @@ footer{
 .icon{
     height: 50px;
     width: 50px;
+}
+.ul-footer{
+    list-style-type: none;
+    text-align: center;
+}
+.a-footer{
+    text-decoration: none;
 }
 @media screen and (max-width: 991px) {
 
