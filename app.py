@@ -191,7 +191,7 @@ def panel(id_autor):
 @login_required
 def panel_admin():
 
-    if session['loggedin'] == True | session['id_administrador'] == 1 :
+    if session['loggedin'] == True & session['id_administrador'] == 1 :
         categorias = nav.nav_categorias()
         return render_template('panel_admin.html',
                                         categorias=categorias
