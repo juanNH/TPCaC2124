@@ -20,9 +20,10 @@ Inicio
     {% endwith %}
 
     {% if not articulos %}
-       <div>
-            <h2>No hay articulos disponibles</h2>
-       </div>
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+         <h3>No hay articulos disponibles</h3>
+    </div>
     {% endif %}
     <div class="container">
         <div class="row">
