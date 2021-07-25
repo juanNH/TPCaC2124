@@ -114,6 +114,18 @@ def registro():
 
     categorias = nav.nav_categorias()
     return render_template('registro.html', autores = autores,categorias=categorias)
+
+#vista contacto
+@app.route('/contacto')
+def contacto():
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    conn.commit()
+
+    categorias = nav.nav_categorias()
+    return render_template('contacto.html',categorias=categorias)
+
+
 # funcion crear publicacion
 
 @app.route('/crear', methods = ['POST'])

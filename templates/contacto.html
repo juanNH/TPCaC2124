@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block title%}
+Contacto
+{{super()}}
+{% endblock %}
+
+{% block contenido %}
+<form action="/verificar" method="POST" enctype="multipart/form-data"></form>
+<div class="card">
+    <div class="mb-3">
+        <label for="contact-email" class="form-label">Correo</label>
+        <input type="email" class="form-control" id="contact-email" placeholder="nombre@ejemplo.com">
+    </div>
+    <div class="mb-3">
+        <label for="contact-asunto" class="form-label">Asunto</label>
+        <input type="text" class="form-control" id="contact-asunto" placeholder="Asunto">
+      </div>
+    <div class="mb-3">
+        <label for="contact-form" class="form-label text-muted">Cuentanos:</label>
+        <textarea class="form-control" id="contact-form" rows="3"></textarea>
+    </div>
+</div>
+</form>
+{% endblock %}
