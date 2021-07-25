@@ -26,6 +26,11 @@
             <li class="nav-item">
               <a class="nav-link " href="{{url_for('panel', id_autor=session.id_autor)}}">Panel de administracion</a>
             </li>
+            {% if session.id_administrador == 1 %}
+              <li class="nav-item">
+                <a class="nav-link " href="{{url_for('panel_admin')}}">Panel General</a>
+              </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link " href="{{url_for('logout')}}">Logout</a>
             </li>
