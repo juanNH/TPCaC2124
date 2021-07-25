@@ -66,19 +66,35 @@ p{
     text-align: center;
     margin:auto;
     padding: 0.5em;
-
 }    
 
 .registro{
     width: 50%;
     margin: 0 auto;
 }
-.panel-r{
-    width: 30%;   
-}
+/* Tablas de panel admin*/
 .panel-l{
-    width: 70%;
+    display: inline-block;
+    width: 30%;   
+    vertical-align: top;
 }
+.panel-r{
+    display: inline-block;
+    width: 65%;
+    vertical-align: top;
+}
+table tbody {
+    display: block;
+    max-height: 700px;
+    overflow-y: scroll;
+  }
+  
+  table thead, table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
 header{
     width: 100%;
     height: 35vh;
