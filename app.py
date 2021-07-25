@@ -315,7 +315,7 @@ def registrarse_validacion():
         _apellido = request.form['apellido']
         _password = request.form['password']
         _password2 = request.form['password2']
-
+        _administrador = 1
         conn=mysql.connect()
         cursor=conn.cursor()
         cursor.execute('SELECT * FROM `autor` WHERE correo = %s', (_correo, ))
@@ -325,7 +325,7 @@ def registrarse_validacion():
         elif _password != _password2:
             flash('Las contraseñas deben coincidir')
         else:
-            cursor.execute('INSERT INTO `autor`(nombre,apellido,correo,password) VALUES (%s, %s, %s, %s)', (_nombre,_apellido,_correo,_password ))
+            cursor.execute('INSERT INTO `autor`(nombre,apellido,correo,password,administrador) VALUES (%s, %s, %s, %s,%s)', (_nombre,_apellido,_correo,_password,_administrador))
             conn.commit()
             conn=mysql.connect()
             cursor=conn.cursor()
@@ -334,7 +334,8 @@ def registrarse_validacion():
             if cuenta:
                 session['loggedin'] = True
                 session['id_autor'] = cuenta[0] 
-                session['correo'] = cuenta[3]  
+                session['correo'] = cuenta[3]
+                session['administrador']  = cuenta[5] 
                 flash(f"""Registro exitoso!
                     Bienvenido {_correo} !""")
                 return redirect(url_for('index'))
