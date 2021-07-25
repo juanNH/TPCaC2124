@@ -35,7 +35,7 @@ Panel admin
                 <td scope="col">email</td>
                 <td scope="col">asunto</td>
                 <td scope="col"></td>
-
+                <td scope="col"></td>
                 </tr>
             </thead>
             <tbody>
@@ -43,7 +43,8 @@ Panel admin
         <tr>
             <td>{{mensaje.1}}</td>
             <td>{{mensaje.2}}</td>
-            <td><a href="#" class="btn btn-danger">Eliminar</a></td>
+            <td><a class="btn btn-info">Info</a></td>
+            <td><a href="{{url_for('eliminar_mensaje',id_mensaje = mensaje.0)}}" class="btn btn-danger">Eliminar</a></td>
         </tr>
         {% endfor %}
             </tbody>
