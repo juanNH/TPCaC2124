@@ -1,14 +1,4 @@
-# Creacion de tablas de la bd
-
-CREATE TABLE articulo (
-id_articulo INT(255) AUTO_INCREMENT NOT NULL PRIMARY KEY,
-titulo VARCHAR(255) NOT NULL UNIQUE,
-contenido VARCHAR(10000) NOT NULL,
-fecha DATETIME NOT NULL,
-id_categoria INT(255) NOT NULL,
-id_autor INT(255) NOT NULL,
-FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria),
-FOREIGN KEY(id_autor) REFERENCES autor(id_autor));
+use blog_cac2124;
 
 CREATE TABLE categoria (
 id_categoria INT(255) AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -19,4 +9,25 @@ id_autor INT(255) AUTO_INCREMENT NOT NULL PRIMARY KEY,
 nombre  VARCHAR(255) NOT NULL,
 apellido VARCHAR(255) NOT NULL,
 correo VARCHAR(255) NOT NULL UNIQUE,
-password VARCHAR(255) NOT NULL);
+password VARCHAR(255) NOT NULL,
+id_administrador BOOL NOT NULL DEFAULT 0);
+
+CREATE TABLE contacto (
+id_mensaje INTEGER(255) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+email VARCHAR(255) NOT NULL,
+mensaje VARCHAR(1000) NOT NULL,
+id_administrador BOOL NOT NULL DEFAULT 1,
+id_autor INT(255) NOT NULL,
+FOREIGN KEY(id_autor) REFERENCES autor(id_autor));
+
+CREATE TABLE articulo (
+id_articulo INT(255) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+titulo VARCHAR(255) NOT NULL UNIQUE,
+contenido VARCHAR(10000) NOT NULL,
+fecha DATETIME NOT NULL,
+imagen VARCHAR(1000) NOT NULL,
+fecha_edicion DATETIME NOT NULL,
+id_categoria INT(255) NOT NULL,
+id_autor INT(255) NOT NULL,
+FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria),
+FOREIGN KEY(id_autor) REFERENCES autor(id_autor));
