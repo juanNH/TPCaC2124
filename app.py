@@ -199,21 +199,17 @@ def panel(id_autor):
                                     articulos = articulos,
                                     categorias=categorias
                                     )
-@app.route('/panel/<id_autor>/<int:administrador>')
+@app.route('/panel_administrador')
 @login_required
-def panel_admin(id_autor,administrador):
-    sql= "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, ar.fecha, CONCAT(au.nombre,' ',au.apellido), c.categoria, ar.fecha_edicion FROM `articulo` ar INNER JOIN `autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `categoria` c ON (ar.id_categoria = c.id_categoria) WHERE ar.id_autor =%s ;"
-    datos = (id_autor)
-    conn=mysql.connect()
-    cursor=conn.cursor()
-    cursor.execute(sql,datos) 
-    articulos = cursor.fetchall()  
-    conn.commit()
+def panel_admin():
 
-    categorias = nav.nav_categorias()
-    return render_template('panel_admin.html',
-                                    categorias=categorias
-                                    )
+    if session['loggedin'] == True & session['id_administrador'] == 1 :
+        categorias = nav.nav_categorias()
+        return render_template('panel_admin.html',
+                                        categorias=categorias
+                                        )
+    else:
+        return redirect(url_for('index'))
 
 
 
@@ -314,7 +310,7 @@ def verificar():
             session['loggedin'] = True
             session['id_autor'] = cuenta[0] 
             session['correo'] = cuenta[3]
-
+            session['id_administrador']  = cuenta[5] 
             flash(f'Bienvenido {_correo} !')
             return redirect(url_for('index'))
         else:
@@ -368,7 +364,7 @@ def registrarse_validacion():
                 session['loggedin'] = True
                 session['id_autor'] = cuenta[0] 
                 session['correo'] = cuenta[3]
-                session['administrador']  = cuenta[5] 
+                session['id_administrador']  = cuenta[5] 
                 flash(f"""Registro exitoso!
                     Bienvenido {_correo} !""")
                 return redirect(url_for('index'))
