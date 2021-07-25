@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block title%}
+Panel admin
+{{super()}}
+{% endblock %}
+
+{% block contenido %}
+    <h2 class="titulopag">Panel de adminsitracion general</h2>  
+    <table class="table">
+        <thead>
+            <tr>
+              <td scope="col">Titulo</td>
+              <td scope="col">Contenido</td>
+              <td scope="col">Categoria</td>
+              <td scope="col">Autor</td>
+              <td scope="col">Fecha</td>
+              <td scope="col">Editado</td>
+              <td scope="col"></td>
+              <td scope="col"></td>
+            </tr>
+          </thead>
+          <tbody>
+    {% for articulo in articulos %}
+    <tr>
+        <td>{{articulo.1}}</td>
+        <td class="ellipsis">{{articulo.2}}</td>
+        <td >{{articulo.7}}</td>
+        <td>{{articulo.6}}</td>
+        <td>{{articulo.5}}</td>
+        {% if articulo.8 != None %}
+        <td>{{articulo.8}}</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td><a href="{{url_for('editar',id_articulo = articulo[0], id_autor = session.id_autor )}}" class="btn btn-warning">Editar</a></td>
+        <td><a href="{{url_for('eliminar',id_articulo = articulo[0], id_autor = session.id_autor)}}" class="btn btn-danger">Eliminar</a></td>
+    </tr>
+    {% endfor %}
+        </tbody>
+      </table>
+
+
+
+{% endblock %}
