@@ -43,6 +43,17 @@ class nav:
 
         return nav_categorias
 
+class contacto:
+    def mensajes():
+        sql= "SELECT * FROM `contacto`"
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute(sql) 
+        mensajes = cursor.fetchall()  
+        conn.commit()
+
+        return mensajes
+
 def login_required(test):
     @wraps(test)
     def wrap(*args,**kwargs):
@@ -205,8 +216,11 @@ def panel_admin():
 
     if session['loggedin'] == True & session['id_administrador'] == 1 :
         categorias = nav.nav_categorias()
+        mensajes = contacto.mensajes()
+
         return render_template('panel_admin.html',
-                                        categorias=categorias
+                                        categorias = categorias,
+                                        mensajes = mensajes
                                         )
     else:
         return redirect(url_for('index'))
