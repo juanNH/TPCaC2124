@@ -7,25 +7,48 @@ Panel admin
 
 {% block contenido %}
     <h2 class="titulopag">Panel de adminsitracion general</h2>  
-    <table class="table">
-        <thead>
-            <tr>
-              <td scope="col">Categorias</td>
-              <td scope="col"></td>
-              <td scope="col"></td>
+    <div class="panel-r">
+        <table class="table">
+                <thead>
+                    <tr>
+                    <td scope="col">Categorias</td>
+                    <td scope="col"></td>
+                    <td scope="col"></td>
 
+                    </tr>
+                </thead>
+                <tbody>
+            {% for categoria in categorias %}
+            <tr>
+                <td>{{categoria.1}}</td>
+                <td><a href="#" class="btn btn-warning">Editar</a></td>
+                <td><a href="#" class="btn btn-danger">Eliminar</a></td>
             </tr>
-          </thead>
-          <tbody>
-    {% for categoria in categorias %}
-    <tr>
-        <td>{{categoria.1}}</td>
-        <td><a href="#" class="btn btn-warning">Editar</a></td>
-        <td><a href="#" class="btn btn-danger">Eliminar</a></td>
-    </tr>
-    {% endfor %}
-        </tbody>
-      </table>
+            {% endfor %}
+                </tbody>
+            </table>
+    </div>
+    <div class="panel-l">
+        <table class="table">
+            <thead>
+                <tr>
+                <td scope="col">email</td>
+                <td scope="col">asunto</td>
+                <td scope="col"></td>
+
+                </tr>
+            </thead>
+            <tbody>
+        {% for mensaje in mensajes %}
+        <tr>
+            <td>{{mensaje.1}}</td>
+            <td>{{mensaje.2}}</td>
+            <td><a href="#" class="btn btn-danger">Eliminar</a></td>
+        </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 
 
