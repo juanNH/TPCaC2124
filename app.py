@@ -270,16 +270,23 @@ def eliminar_mensaje(id_mensaje):
 @login_required
 def eliminar_categoria(id_categoria):
     if session['loggedin'] == True & session['id_administrador'] == 1 :
+        datos = (id_categoria)
+        sql="select a.imagen from articulo a INNER JOIN categoria c ON (a.id_categoria = c.id_categoria) WHERE c.id_categoria = %s"
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute(sql,datos) 
+        nombres_img = cursor.fetchall()  
+        conn.commit()
+
+
         sql="delete from articulo where id_categoria = %s;"
         conn = mysql.connect()
         cursor = conn.cursor()
-        datos = (id_categoria)
         cursor.execute(sql,(datos))
         conn.commit()
 
         sql="delete from categoria where id_categoria = %s;"
 
-        datos = (id_categoria)
         cursor.execute(sql,(datos))
         conn.commit()
 
@@ -299,7 +306,7 @@ def crear_categoria():
         cursor = conn.cursor()
         cursor.execute(sql, datos)
         conn.commit()
-        
+
         return redirect(url_for('panel_admin',
                                             ))
     else:
