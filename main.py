@@ -2,13 +2,16 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 from flaskext.mysql import MySQL
 from datetime import datetime
 import os
+import hashlib
 from functools import wraps
 
 app = Flask(__name__)
-my_secret = os.environ['SECRET']
 
-local = 'Remplazar en produccion'
-app.secret_key = my_secret
+secret_key = os.environ['SECRET']
+
+#secret_key = 'Remplazar en produccion'
+
+app.secret_key = secret_key
 db = os.environ['DB']
 host = os.environ['HOST']
 password = os.environ['PASSWORD']
@@ -396,9 +399,12 @@ def verificar():
     if (request.method == 'POST' and 'correo' in request.form and 'password' in request.form):
         _correo = request.form['correo']
         _password = request.form['password']
+
+        _cifrado1 = hashlib.md5(_password.encode())
+
         conn=mysql.connect()
         cursor=conn.cursor()
-        cursor.execute('SELECT * FROM `autor` WHERE correo = % s AND password = % s;', (_correo, _password))
+        cursor.execute('SELECT * FROM `autor` WHERE correo = % s AND password = % s;', (_correo, _cifrado1.hexdigest()))
         cuenta = cursor.fetchone()  
         if cuenta:
             session['loggedin'] = True
@@ -442,21 +448,28 @@ def registrarse_validacion():
         _apellido = request.form['apellido']
         _password = request.form['password']
         _password2 = request.form['password2']
-        
+
+        _cifrado1 = hashlib.md5(_password.encode())
+        _cifrado2 = hashlib.md5(_password2.encode())
+
+
+
+
         conn=mysql.connect()
         cursor=conn.cursor()
         cursor.execute('SELECT * FROM `autor` WHERE correo = %s', (_correo, ))
         account = cursor.fetchone()
         if account:
             flash('Correo ya registrado en el sistema')
-        elif _password != _password2:
+        elif _cifrado1.hexdigest() != _cifrado2.hexdigest():
             flash('Las contraseñas deben coincidir')
         else:
-            cursor.execute('INSERT INTO `autor`(nombre,apellido,correo,password) VALUES (%s, %s, %s, %s)', (_nombre,_apellido,_correo,_password))
+            
+            cursor.execute('INSERT INTO `autor`(nombre,apellido,correo,password) VALUES (%s, %s, %s, %s)', (_nombre,_apellido,_correo,_cifrado1.hexdigest()))
             conn.commit()
             conn=mysql.connect()
             cursor=conn.cursor()
-            cursor.execute('SELECT * FROM `autor` WHERE correo = % s AND password = % s;', (_correo, _password))
+            cursor.execute('SELECT * FROM `autor` WHERE correo = % s AND password = % s;', (_correo, _cifrado1.hexdigest()))
             cuenta = cursor.fetchone()  
             if cuenta:
                 session['loggedin'] = True
