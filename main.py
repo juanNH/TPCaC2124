@@ -26,7 +26,7 @@ app.config['MYSQL_DATABASE_PASSWORD'] = password
 app.config['MYSQL_DATABASE_DB'] = db
 
 #local 
-#app.config['MYSQL_DATABASE_HOST'] = 'user'
+#app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 #app.config['MYSQL_DATABASE_USER'] = 'root'
 #app.config['MYSQL_DATABASE_PASSWORD'] = ''
 #app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
@@ -415,17 +415,21 @@ def verificar():
                                     )
 
 @app.route('/login')
-@app.route('/login,<msg>')
 def login(msg=False):
+    session.pop('loggedin', None)
+    session.pop('id_autor', None)
+    session.pop('correo', None)
+    session.pop('id_administrador',None)
     categorias = nav.nav_categorias()
     return render_template('login.html',
-                                    categorias=categorias,msg=msg
+                                    categorias=categorias
                                     )
 @app.route('/logout')
 def logout():
     session.pop('loggedin', None)
     session.pop('id_autor', None)
     session.pop('correo', None)
+    session.pop('id_administrador',None)
     return redirect(url_for('login'))
 
 #registrar usuario
@@ -471,10 +475,17 @@ def registrarse_validacion():
 
 @app.route('/registrarse')
 def registrarse():
+
+    session.pop('loggedin', None)
+    session.pop('id_autor', None)
+    session.pop('correo', None)
+    session.pop('id_administrador',None)
+   
     categorias = nav.nav_categorias()
     return render_template('registrarse.html',
-                                            categorias = categorias
+                                        categorias = categorias
                                             )
+                                                
 
 @app.route('/buscador', methods = ['POST'])
 def buscador():
