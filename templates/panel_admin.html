@@ -28,8 +28,11 @@ Panel admin
             {% endfor %}
                 </tbody>
             </table>
-
-            <a class="btn btn-success">Crear categoria</a>
+            <form class="d-flex"  action="/crear_categoria" method="POST" >
+                <input class="form-control me-2" placeholder="Ingrese nueva categoria" aria-label="Search" required name='categoria'>
+                <a class="btn btn-success">Crear categoria</a>
+            </form>
+            
     </div>
     <div class="panel-r">
         <table class="table">
