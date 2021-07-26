@@ -28,12 +28,6 @@ p{
     text-indent: 2em;
 }
 
-.ellipsis {
-    max-width: 40px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
 
 
 
@@ -75,25 +69,37 @@ p{
 /* Tablas de panel admin*/
 .panel-l{
     display: inline-block;
-    width: 30%;   
+    width: 33%;   
     vertical-align: top;
 }
 .panel-r{
     display: inline-block;
     width: 65%;
     vertical-align: top;
+    border-left: 5px solid black;
 }
-table tbody {
+table{
     display: block;
-    max-height: 700px;
-    overflow-y: scroll;
-  }
-  
-  table thead, table tbody tr {
-    display: table;
+    height: 300px;
+    overflow-y: scroll; 
+    overflow-x: scroll;
+    width: 100vw;
+    text-align: center;
+}
+
+td{
+    min-width: 100px;
     width: 100%;
-    table-layout: fixed;
-  }
+}
+td:nth-child(1) {
+    width: 40%;
+}
+td:nth-child(2) {
+    width: 40%;
+}
+  
+
+
 
 header{
     width: 100%;
@@ -213,7 +219,7 @@ footer{
 
     .column {
         width: 48%;
-      }
+    }
     .left-footer{
         display: block;
         margin:auto;
@@ -224,6 +230,17 @@ footer{
         margin:auto;
         width: 100%;
     }
+    .panel-l{
+        width: 100%;
+    } 
+
+    .panel-r{
+      
+        border-left: none;
+        border-top: 5px solid black;
+        width: 100%;
+    }
+
 
 }
 
