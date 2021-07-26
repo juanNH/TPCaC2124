@@ -26,7 +26,11 @@ Panel de administracion
         <td >{{articulo.7}}</td>
         <td>{{articulo.6}}</td>
         <td>{{articulo.5}}</td>
-        <td>{{articulo.8}}</td>
+        {%if articulo.5 == articulo.8%}
+          <td></td>
+        {%else%}
+          <td>{{articulo.8}}</td>
+        {%endif%}
         <td><a href="{{url_for('editar',id_articulo = articulo[0], id_autor = session.id_autor )}}" class="btn btn-warning">Editar</a></td>
         <td><a href="{{url_for('eliminar',id_articulo = articulo[0], id_autor = session.id_autor)}}" class="btn btn-danger">Eliminar</a></td>
     </tr>

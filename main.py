@@ -181,9 +181,9 @@ def crear():
         id_img = now.strftime("%Y-%m-%d-%H-%M-%S") 
         nuevoNombreFoto = id_img+_imagen.filename
         _imagen.save("uploads/"+nuevoNombreFoto)
-    sql = "INSERT INTO `articulo` (`titulo`,`contenido`,`fecha`,`id_categoria`,`id_autor`,`imagen`) VALUES  (%s,%s,%s,%s,%s,%s);"
+    sql = "INSERT INTO `articulo` (`titulo`,`contenido`,`fecha`,`id_categoria`,`id_autor`,`imagen`,`fecha_edicion`) VALUES  (%s,%s,%s,%s,%s,%s,%s);"
 
-    datos=(_titulo,_contenido,tiempo,_id_categoria,_id_autor,nuevoNombreFoto)
+    datos=(_titulo,_contenido,tiempo,_id_categoria,_id_autor,nuevoNombreFoto,tiempo)
 
     conn = mysql.connect()
     cursor = conn.cursor()
