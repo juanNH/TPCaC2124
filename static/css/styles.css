@@ -16,7 +16,14 @@ p{
 }
 
 /*Articulo */
-
+article{
+    max-width: 2000px;
+    margin: auto;
+}
+.imagen-art{
+    max-width:60%;
+    margin: auto;
+}
 .boxed {
     clear: both;
     margin: 10px 3% 10px 3%;
