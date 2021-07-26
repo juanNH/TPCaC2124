@@ -5,25 +5,31 @@ import os
 from functools import wraps
 
 app = Flask(__name__)
+my_secret = os.environ['SECRET']
 
 local = 'Remplazar en produccion'
-app.secret_key = local
+app.secret_key = my_secret
+db = os.environ['DB']
+host = os.environ['HOST']
+password = os.environ['PASSWORD']
+user = os.environ['USER']
 
 
 
 
 #conexion a la base de datos        
 mysql = MySQL()
-#bd remotemysql
-#app.config['MYSQL_DATABASE_HOST'] = 'remotemysql.com'
-#app.config['MYSQL_DATABASE_USER'] = '1x7Zzwvogm'
-#app.config['MYSQL_DATABASE_PASSWORD'] = 'zUQeRoDa9h'
-#app.config['MYSQL_DATABASE_DB'] = '1x7Zzwvogm'
+#Produccion
+app.config['MYSQL_DATABASE_HOST'] = host
+app.config['MYSQL_DATABASE_USER'] = user
+app.config['MYSQL_DATABASE_PASSWORD'] = password
+app.config['MYSQL_DATABASE_DB'] = db
+
 #local 
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
-app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
+#app.config['MYSQL_DATABASE_HOST'] = 'user'
+#app.config['MYSQL_DATABASE_USER'] = 'root'
+#app.config['MYSQL_DATABASE_PASSWORD'] = ''
+#app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
 
 mysql.init_app(app)
 
@@ -70,8 +76,6 @@ def login_required(test):
 @app.route('/')
 def index(id_categoria = None,palabra = None):
     conn=mysql.connect()
-    print(conn)
-    print(mysql)
     cursor=conn.cursor()  
     cursor.execute("Show tables;")
     
