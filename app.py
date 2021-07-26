@@ -125,8 +125,8 @@ def registro():
     return render_template('registro.html', autores = autores,categorias=categorias)
 
 #vista contacto
-@app.route('/contacto')
-def contacto1():
+@app.route('/contactate')
+def contactate():
     conn=mysql.connect()
     cursor=conn.cursor()
     conn.commit()
