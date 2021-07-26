@@ -95,6 +95,12 @@ td:nth-child(1) {
 td:nth-child(2) {
     width: 40%;
 }
+
+.tarjetacontacto{
+    border: #18786d dashed;
+    border-radius: 0.5em;
+    justify-content: center;
+}
   
 
 
