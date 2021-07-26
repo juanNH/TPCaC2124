@@ -224,6 +224,8 @@ def panel(id_autor):
                                     articulos = articulos,
                                     categorias=categorias
                                     )
+
+#Comandos de administrador
 @app.route('/panel_administrador')
 @login_required
 def panel_admin():
@@ -238,7 +240,20 @@ def panel_admin():
                                         )
     else:
         return redirect(url_for('index'))
+@app.route('/eliminar_mensaje/<id_mensaje>/')
+@login_required
+def eliminar_mensaje(id_mensaje):
+    
+    sql = "DELETE FROM `contacto` WHERE id_mensaje = %s;"
+    conn = mysql.connect()
+    cursor = conn.cursor()
 
+
+    datos = (id_mensaje)
+    cursor.execute(sql,(datos))
+    conn.commit()
+    return redirect(url_for('panel_admin'
+                                ))
 
 
 
