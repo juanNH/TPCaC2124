@@ -120,15 +120,13 @@ def registro():
     cursor.execute(autor) 
     autores = cursor.fetchall()  
     conn.commit()
-    
-
 
     categorias = nav.nav_categorias()
     return render_template('registro.html', autores = autores,categorias=categorias)
 
 #vista contacto
 @app.route('/contacto')
-def contacto():
+def contacto1():
     conn=mysql.connect()
     cursor=conn.cursor()
     conn.commit()
@@ -136,7 +134,23 @@ def contacto():
     categorias = nav.nav_categorias()
     return render_template('contacto.html',categorias=categorias)
 
+@app.route("/contacto_validacion", methods = ['POST'])
+def contacto_validacion():
+    _email = request.form['contact-email']
+    _asunto = request.form['contact-asunto']
+    _text = request.form['contact-text']
 
+    sql = "INSERT INTO `contacto` (`email`,`asunto`,`mensaje`) VALUES  (%s,%s,%s);"
+
+    datos=(_email,_asunto,_text)
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute(sql, datos)
+    conn.commit()
+
+    categorias = nav.nav_categorias()
+    return render_template('index.html',categorias=categorias)
 # funcion crear publicacion
 
 @app.route('/crear', methods = ['POST'])
