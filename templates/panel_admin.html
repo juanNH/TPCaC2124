@@ -23,11 +23,13 @@ Panel admin
                 <td>{{categoria.1}}</td>
                 <td>#</td>
                 <td><a href="#" class="btn btn-warning">Editar</a></td>
-                <td><a href="#" class="btn btn-danger">Eliminar</a></td>
+                <td><a href="{{url_for('eliminar_categoria',id_categoria = categoria.0)}}" class="btn btn-danger">Eliminar</a></td>
             </tr>
             {% endfor %}
                 </tbody>
             </table>
+
+            <a class="btn btn-success">Crear categoria</a>
     </div>
     <div class="panel-r">
         <table class="table">

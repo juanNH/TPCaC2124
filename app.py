@@ -254,8 +254,23 @@ def eliminar_mensaje(id_mensaje):
     conn.commit()
     return redirect(url_for('panel_admin'
                                 ))
+@app.route('/eliminar_categoria/<id_categoria>')
+@login_required
+def eliminar_categoria(id_categoria):
+    sql="delete from articulo where id_categoria = %s;"
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    datos = (id_categoria)
+    cursor.execute(sql,(datos))
+    conn.commit()
 
+    sql="delete from categoria where id_categoria = %s;"
 
+    datos = (id_categoria)
+    cursor.execute(sql,(datos))
+    conn.commit()
+
+    return redirect(url_for('panel_admin'))
 
 
 
