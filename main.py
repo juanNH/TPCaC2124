@@ -1,29 +1,29 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, flash
 from flaskext.mysql import MySQL
-import MySQLdb.cursors
-import re
 from datetime import datetime
 import os
 from functools import wraps
 
 app = Flask(__name__)
 
-app.secret_key = 'Luego remplazar'
-#os.environ.get('SECRET')
+local = 'Remplazar en produccion'
+app.secret_key = local
+
+
 
 
 #conexion a la base de datos        
 mysql = MySQL()
 #bd remotemysql
-app.config['MYSQL_DATABASE_HOST'] = 'remotemysql.com'
-app.config['MYSQL_DATABASE_USER'] = '1x7Zzwvogm'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'zUQeRoDa9h'
-app.config['MYSQL_DATABASE_DB'] = '1x7Zzwvogm'
+#app.config['MYSQL_DATABASE_HOST'] = 'remotemysql.com'
+#app.config['MYSQL_DATABASE_USER'] = '1x7Zzwvogm'
+#app.config['MYSQL_DATABASE_PASSWORD'] = 'zUQeRoDa9h'
+#app.config['MYSQL_DATABASE_DB'] = '1x7Zzwvogm'
 #local 
-#app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-#app.config['MYSQL_DATABASE_USER'] = 'root'
-#app.config['MYSQL_DATABASE_PASSWORD'] = ''
-#app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
 
 mysql.init_app(app)
 
@@ -77,10 +77,6 @@ def index(id_categoria = None,palabra = None):
     
     myresult = cursor.fetchall()
     
-    print('tablas')
-    for x in myresult:
-        print(x)
-    print('.')
     if palabra != None:
         palabra = "%"+palabra+"%"
         sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen FROM `articulo` a INNER JOIN `categoria` c ON (a.id_categoria = c.id_categoria) INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE a.titulo LIKE   %s   Order by a.fecha DESC;"
@@ -127,7 +123,6 @@ def registro():
 @app.route('/contactate')
 def contactate():
     conn=mysql.connect()
-    cursor=conn.cursor()
     conn.commit()
 
     categorias = nav.nav_categorias()
@@ -188,7 +183,6 @@ def crear():
     cursor.execute(sql, datos)
     conn.commit()
 
-    categorias = nav.nav_categorias()
     return redirect(url_for('index'))
 
 @app.route('/uploads/<nombreFoto>')
@@ -486,5 +480,8 @@ def buscador():
                                     palabra = _palabra
                                     ))
 if __name__ == '__main__':
+    #local
     app.run(debug=True)
+    #Produccion
+    #app.run(host='0.0.0.0', debug=True, port=8080)
         
