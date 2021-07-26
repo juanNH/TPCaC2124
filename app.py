@@ -274,7 +274,24 @@ def eliminar_categoria(id_categoria):
         return redirect(url_for('panel_admin'))
     else:
         return redirect(url_for('index'))
+@app.route('/crear_categoria', methods =['GET', 'POST'])
+@login_required
+def crear_categoria():
+    if session['loggedin'] == True & session['id_administrador'] == 1 :
+        _categoria = request.form['categoria']
 
+        sql = "INSERT INTO `categoria` (`categoria`) VALUES  (%s);"
+        datos=(_categoria)
+        
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql, datos)
+        conn.commit()
+        
+        return redirect(url_for('panel_admin',
+                                            ))
+    else:
+        return redirect(url_for('index'))
 
 # funcion de eliminar articulo
 @app.route('/eliminar/<id_articulo>/<id_autor>')
