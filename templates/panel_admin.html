@@ -43,7 +43,7 @@ Panel admin
         <tr>
             <td>{{mensaje.1}}</td>
             <td>{{mensaje.2}}</td>
-            <td><a class="btn btn-info">Info</a></td>
+            <td><a  class="btn btn-info" href="{{url_for('panelAlerta', id_mensaje = mensaje.0)}}">Info</a></td>
             <td><a href="{{url_for('eliminar_mensaje',id_mensaje = mensaje.0)}}" class="btn btn-danger">Eliminar</a></td>
         </tr>
         {% endfor %}

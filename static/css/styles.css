@@ -35,8 +35,6 @@ p{
     white-space: nowrap;
 }
 
-
-
 .invisible{
     display: none;
 }
@@ -69,7 +67,7 @@ p{
 }    
 
 .registro{
-    width: 50%;
+    width: 75%;
     margin: 0 auto;
 }
 /* Tablas de panel admin*/
@@ -153,23 +151,21 @@ header{
 } 
 /* footer*/
 footer{
-    
     width: 100%;
     background: #fde56c;
     border-top: 1px solid #b7ae87;
-    color: #d1d4d6;
+    color: #000000;
     padding-top: 30px;
     padding-bottom: 30px;
     text-align: center;
     box-shadow: 0px 0px 20px #b7ae87;
-    height: 100%;
+    height: 75%;
     margin-top:30px;
-    max-height: 700px;
+    max-height: 500px;
 }
 .left-footer{
     width: 49%;
     background: #fde56c;
-    border: 5px solid rgb(167, 13, 13);
     height: 100%;
     display: inline-block;
     max-width: 700px;
@@ -179,7 +175,6 @@ footer{
 .right-footer{
     width: 49%;
     background: #fde56c;
-    border: 5px solid rgb(167, 13, 13);
     height: 100%;
     display: inline-block;
     max-width: 700px;

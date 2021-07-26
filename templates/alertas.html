@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block title%}
+Mensajes de Contacto
+{{super()}}
+{% endblock %}
+
+{% block contenido %}
+<h3 class="titulopag">Alerta de Mensajes</h3>
+<div class=registro>    
+        <label for="titulo" class="form-label">Email:</label>
+        <input class="form-control" type="text" value="{{mensaje.0}}" aria-label="{{mensaje.0}}" readonly>
+        <input class="form-control invisible" type="text">
+        <div class="mb-3">
+            <label for="imagen" class="form-label">Asunto: </label>
+            <input class="form-control" type="text" value="{{mensaje.1}}" aria-label="{{mensaje.1}}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="contenido" class="form-label">Mensaje:</label>
+            <input class="form-control" type="text" value="{{mensaje.2}}" aria-label="readonly input example" readonly>
+        </div>
+</div>    
+
+{% endblock %}

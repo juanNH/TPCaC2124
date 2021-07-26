@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, flash
 from flaskext.mysql import MySQL
 import MySQLdb.cursors
@@ -151,6 +150,19 @@ def contacto_validacion():
 
     categorias = nav.nav_categorias()
     return render_template('index.html',categorias=categorias)
+
+@app.route('/alertas/<id_mensaje>/')
+def panelAlerta(id_mensaje):
+    sql="SELECT email, asunto, mensaje FROM `contacto` WHERE `id_mensaje` = %s"
+
+    datos = (int(id_mensaje))
+    conn=mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql,datos) 
+    mensaje = cursor.fetchall()
+
+    return render_template('alertas.html', mensaje=mensaje[0])
+    
 # funcion crear publicacion
 
 @app.route('/crear', methods = ['POST'])
@@ -334,9 +346,6 @@ def editar_articulo(id_autor):
     return redirect(url_for('panel',
                                 id_autor = id_autor
                                 ))
-
-#archivo en sidebar
-
 
 #login  y logout
 
