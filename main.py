@@ -485,7 +485,7 @@ def buscador():
                                     ))
 if __name__ == '__main__':
     #local
-    app.run(debug=True)
+    #app.run(debug=True)
     #Produccion
-    #app.run(host='0.0.0.0', debug=True, port=8080)
+    app.run(host='0.0.0.0', debug=True, port=8080)
         
