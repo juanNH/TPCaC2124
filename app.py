@@ -278,6 +278,9 @@ def eliminar_categoria(id_categoria):
         nombres_img = cursor.fetchall()  
         conn.commit()
 
+        for nombre in nombres_img:
+            os.remove(os.path.join(app.config['CARPETA'],nombre[0])) #remuevo las fotos
+
 
         sql="delete from articulo where id_categoria = %s;"
         conn = mysql.connect()
