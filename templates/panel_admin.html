@@ -12,21 +12,27 @@ Panel admin
                 <thead>
                     <tr>
                     <td scope="col">Categorias</td>
+                    <td scope="col">Publicaciones</td>
                     <td scope="col"></td>
                     <td scope="col"></td>
-
                     </tr>
                 </thead>
                 <tbody>
             {% for categoria in categorias %}
             <tr>
                 <td>{{categoria.1}}</td>
+                <td>#</td>
                 <td><a href="#" class="btn btn-warning">Editar</a></td>
-                <td><a href="#" class="btn btn-danger">Eliminar</a></td>
+                <td><a href="{{url_for('eliminar_categoria',id_categoria = categoria.0)}}" class="btn btn-danger">Eliminar</a></td>
             </tr>
             {% endfor %}
                 </tbody>
             </table>
+            <form class="d-flex"  action="/crear_categoria" method="POST" >
+                <input class="form-control me-2" placeholder="Ingrese nueva categoria" aria-label="Search" required name='categoria'>
+                <a class="btn btn-success">Crear categoria</a>
+            </form>
+            
     </div>
     <div class="panel-r">
         <table class="table">
