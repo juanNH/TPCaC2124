@@ -43,7 +43,7 @@ app.config['CARPETA']=CARPETA
 
 class nav:
     def nav_categorias():
-        sql= "SELECT c.id_categoria, c.categoria, COUNT(c.id_categoria) FROM `categoria` c INNER JOIN `articulo` a ON (c.id_categoria = a.id_categoria) GROUP BY id_categoria;"
+        sql= "SELECT c.id_categoria, c.categoria, COUNT(DISTINCT(a.id_categoria)) FROM `categoria` c LEFT JOIN `articulo` a ON (c.id_categoria = a.id_categoria) GROUP BY c.categoria;"
         conn=mysql.connect()
         cursor=conn.cursor()
         cursor.execute(sql) 
