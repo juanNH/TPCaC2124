@@ -522,6 +522,24 @@ def buscador():
     return redirect(url_for('index',
                                     palabra = _palabra
                                     ))
+
+@app.route('/editar_categoria', methods =['GET', 'POST'])
+@login_required
+def editar_categoria():
+    if session['loggedin'] == True & session['id_administrador'] == 1 :
+        _nombre = request.form['nombre']
+        _id_categoria = request.form['id_categoria']
+        sql="UPDATE `categoria` SET `categoria`=%s  WHERE id_categoria=%s;"
+        datos=(_nombre, _id_categoria)  # crea la sentencia sql
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute(sql,datos)               # ejecuta la sentencia sql 
+        conn.commit()
+        return redirect(url_for('panel_admin',
+                                ))
+    return redirect(url_for('index',
+                                    ))
+    
 if __name__ == '__main__':
     #local
     #app.run(debug=True)
