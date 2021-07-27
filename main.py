@@ -7,15 +7,15 @@ from functools import wraps
 
 app = Flask(__name__)
 
-secret_key = os.environ['SECRET']
+#secret_key = os.environ['SECRET']
 
-#secret_key = 'Remplazar en produccion'
+secret_key = 'Remplazar en produccion'
 
 app.secret_key = secret_key
-db = os.environ['DB']
-host = os.environ['HOST']
-password = os.environ['PASSWORD']
-user = os.environ['USER']
+#db = os.environ['DB']
+#host = os.environ['HOST']
+#password = os.environ['PASSWORD']
+#user = os.environ['USER']
 
 
 
@@ -23,16 +23,16 @@ user = os.environ['USER']
 #conexion a la base de datos        
 mysql = MySQL()
 #Produccion
-app.config['MYSQL_DATABASE_HOST'] = host
-app.config['MYSQL_DATABASE_USER'] = user
-app.config['MYSQL_DATABASE_PASSWORD'] = password
-app.config['MYSQL_DATABASE_DB'] = db
+#app.config['MYSQL_DATABASE_HOST'] = host
+#app.config['MYSQL_DATABASE_USER'] = user
+#app.config['MYSQL_DATABASE_PASSWORD'] = password
+#app.config['MYSQL_DATABASE_DB'] = db
 
 #local 
-#app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-#app.config['MYSQL_DATABASE_USER'] = 'root'
-#app.config['MYSQL_DATABASE_PASSWORD'] = ''
-#app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
 
 mysql.init_app(app)
 
@@ -40,9 +40,10 @@ CARPETA = os.path.join('uploads') # al path del proyecto le adjunto ‘upload’
 app.config['CARPETA']=CARPETA
 
 # clase nav para pedir las categorias a las vistas
+
 class nav:
     def nav_categorias():
-        sql= "SELECT * FROM `categoria`"
+        sql= "SELECT c.id_categoria, c.categoria, COUNT(c.id_categoria) FROM `categoria` c INNER JOIN `articulo` a ON (c.id_categoria = a.id_categoria) GROUP BY id_categoria;"
         conn=mysql.connect()
         cursor=conn.cursor()
         cursor.execute(sql) 
@@ -94,7 +95,7 @@ def index(id_categoria = None,palabra = None):
         datos = (id_categoria)
         cursor.execute(sql,datos) 
     else:
-        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen FROM `articulo` a INNER JOIN `autor` au ON (a.id_autor = au.id_autor) ORDER BY fecha DESC"
+        sql= "SELECT a.id_articulo,a.titulo,a.contenido,c.categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen FROM `articulo` a INNER JOIN `autor` au ON (a.id_autor = au.id_autor) INNER JOIN `categoria` c ON(c.id_categoria = a.id_categoria) ORDER BY fecha DESC;"
         cursor.execute(sql) 
     
    
@@ -102,14 +103,12 @@ def index(id_categoria = None,palabra = None):
     conn.commit()
 
     categorias = nav.nav_categorias()
-    catDict = {}
-    for ind, val in categorias:
-        catDict[ind]=val
+
 
     return render_template('index.html',
                             articulos = articulos,
                             categorias=categorias,
-                            catDict=catDict
+
                             )
 
 # vista registro
@@ -202,8 +201,7 @@ def uploads(nombreFoto):
 @app.route('/articulo/<id_articulo>')
 def articulo(id_articulo):
     
-    sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha),a.imagen, CONCAT(au.nombre,' ',au.apellido) FROM `articulo` a INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE id_articulo = %s;"
-
+    sql= "SELECT a.id_articulo,a.titulo,a.contenido,c.categoria,a.id_autor, DATE(a.fecha),a.imagen, CONCAT(au.nombre,' ',au.apellido) FROM `articulo` a INNER JOIN `autor` au ON (a.id_autor = au.id_autor) INNER JOIN `categoria` c ON (c.id_categoria = a.id_categoria) WHERE id_articulo = %s;"
     datos = (id_articulo)
     conn=mysql.connect()
     cursor=conn.cursor()
@@ -212,13 +210,11 @@ def articulo(id_articulo):
     conn.commit()
 
     categorias = nav.nav_categorias()
-    catDict = {}
-    for ind, val in categorias:
-        catDict[ind]=val
+  
     return render_template('articulo.html',
                                         articulo = articulo[0],
                                         categorias=categorias,
-                                        catDict=catDict
+                                       
                                         )
 # vista panel de control
 @app.route('/panel/<id_autor>')
@@ -266,10 +262,6 @@ def eliminar_articulo_admin(id_articulo):
     sql = "DELETE FROM `articulo` WHERE id_articulo = %s;"
     conn = mysql.connect()
     cursor = conn.cursor()
-    
-    cursor.execute("SELECT imagen FROM `articulo` WHERE id_articulo=%s",(id_articulo))
-    fila=cursor.fetchall()   # fila va a tener un solo registro y 1 solo campo
-    os.remove(os.path.join(app.config['CARPETA'],fila[0][0])) #remuevo la foto
 
     datos = (id_articulo)
     cursor.execute(sql,(datos))
@@ -532,7 +524,7 @@ def buscador():
                                     ))
 if __name__ == '__main__':
     #local
-    #app.run(debug=True)
+    app.run(debug=True)
     #Produccion
-    app.run(host='0.0.0.0', debug=True, port=8080)
+    #app.run(host='0.0.0.0', debug=True, port=8080)
         
