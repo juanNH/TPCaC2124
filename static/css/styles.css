@@ -72,6 +72,11 @@ article{
     margin: 0 auto;
 }
 /* Tablas de panel admin*/
+.panel-a{
+    width: 100%;
+    vertical-align: top;
+    border-top: 5px solid black;
+}
 .panel-l{
     display: inline-block;
     width: 33%;   

@@ -246,13 +246,33 @@ def panel_admin():
     if session['loggedin'] == True & session['id_administrador'] == 1 :
         categorias = nav.nav_categorias()
         mensajes = contacto.mensajes()
-
+        sql= "SELECT ar.id_articulo, ar.titulo, ar.contenido, ar.id_categoria, ar.id_autor, ar.fecha, CONCAT(au.nombre,' ',au.apellido), c.categoria, ar.fecha_edicion FROM `articulo` ar INNER JOIN `autor` au ON(ar.id_autor = au.id_autor) INNER JOIN `categoria` c ON (ar.id_categoria = c.id_categoria);"
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute(sql) 
+        articulos = cursor.fetchall()  
+        conn.commit()
         return render_template('panel_admin.html',
                                         categorias = categorias,
-                                        mensajes = mensajes
+                                        mensajes = mensajes,
+                                        articulos = articulos
                                         )
     else:
         return redirect(url_for('index'))
+@app.route('/eliminar_articulo_admin/<id_articulo>/')
+@login_required
+def eliminar_articulo_admin(id_articulo):
+    
+    sql = "DELETE FROM `articulo` WHERE id_articulo = %s;"
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+
+    datos = (id_articulo)
+    cursor.execute(sql,(datos))
+    conn.commit()
+    return redirect(url_for('panel_admin'
+                                ))
 @app.route('/eliminar_mensaje/<id_mensaje>/')
 @login_required
 def eliminar_mensaje(id_mensaje):

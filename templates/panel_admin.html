@@ -8,6 +8,7 @@ Panel admin
 {% block contenido %}
     <h2 class="titulopag">Panel de adminsitracion general</h2>  
     <div class="panel-l">
+        <h4 class="titulopag">Categorias</h4>
         <table class="table">
                 <thead>
                     <tr>
@@ -35,6 +36,7 @@ Panel admin
             
     </div>
     <div class="panel-r">
+        <h4 class="titulopag">Mensajes</h4>
         <table class="table">
             <thead>
                 <tr>
@@ -55,6 +57,37 @@ Panel admin
         {% endfor %}
             </tbody>
         </table>
+    </div>
+    <div class="panel-a">
+        <h4 class="titulopag">Articulos</h4>  
+    <table class="table">
+        <thead>
+            <tr>
+              <td scope="col">Titulo</td>
+              <td scope="col">Categoria</td>
+              <td scope="col">Autor</td>
+              <td scope="col">Fecha</td>
+              <td scope="col">Editado</td>
+              <td scope="col"></td>
+            </tr>
+          </thead>
+          <tbody>
+    {% for articulo in articulos %}
+    <tr>
+        <td>{{articulo.1}}</td>
+        <td >{{articulo.7}}</td>
+        <td>{{articulo.6}}</td>
+        <td>{{articulo.5}}</td>
+        {%if articulo.5 == articulo.8%}
+          <td></td>
+        {%else%}
+          <td>{{articulo.8}}</td>
+        {%endif%}
+        <td><a href="{{url_for('eliminar_articulo_admin',id_articulo = articulo[0])}}" class="btn btn-danger">Eliminar</a></td>
+    </tr>
+    {% endfor %}
+        </tbody>
+      </table>
     </div>
 
 
