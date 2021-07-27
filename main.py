@@ -7,15 +7,15 @@ from functools import wraps
 
 app = Flask(__name__)
 
-#secret_key = os.environ['SECRET']
+secret_key = os.environ['SECRET']
 
-secret_key = 'Remplazar en produccion'
+#secret_key = 'Remplazar en produccion'
 
 app.secret_key = secret_key
-#db = os.environ['DB']
-#host = os.environ['HOST']
-#password = os.environ['PASSWORD']
-#user = os.environ['USER']
+db = os.environ['DB']
+host = os.environ['HOST']
+password = os.environ['PASSWORD']
+user = os.environ['USER']
 
 
 
@@ -23,16 +23,16 @@ app.secret_key = secret_key
 #conexion a la base de datos        
 mysql = MySQL()
 #Produccion
-#app.config['MYSQL_DATABASE_HOST'] = host
-#app.config['MYSQL_DATABASE_USER'] = user
-#app.config['MYSQL_DATABASE_PASSWORD'] = password
-#app.config['MYSQL_DATABASE_DB'] = db
+app.config['MYSQL_DATABASE_HOST'] = host
+app.config['MYSQL_DATABASE_USER'] = user
+app.config['MYSQL_DATABASE_PASSWORD'] = password
+app.config['MYSQL_DATABASE_DB'] = db
 
 #local 
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
-app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
+#app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+#app.config['MYSQL_DATABASE_USER'] = 'root'
+#app.config['MYSQL_DATABASE_PASSWORD'] = ''
+#app.config['MYSQL_DATABASE_DB'] = 'blog_cac2124'
 
 mysql.init_app(app)
 
@@ -524,7 +524,7 @@ def buscador():
                                     ))
 if __name__ == '__main__':
     #local
-    app.run(debug=True)
+    #app.run(debug=True)
     #Produccion
-    #app.run(host='0.0.0.0', debug=True, port=8080)
+    app.run(host='0.0.0.0', debug=True, port=8080)
         
