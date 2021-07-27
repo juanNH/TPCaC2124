@@ -266,7 +266,10 @@ def eliminar_articulo_admin(id_articulo):
     sql = "DELETE FROM `articulo` WHERE id_articulo = %s;"
     conn = mysql.connect()
     cursor = conn.cursor()
-
+    
+    cursor.execute("SELECT imagen FROM `articulo` WHERE id_articulo=%s",(id_articulo))
+    fila=cursor.fetchall()   # fila va a tener un solo registro y 1 solo campo
+    os.remove(os.path.join(app.config['CARPETA'],fila[0][0])) #remuevo la foto
 
     datos = (id_articulo)
     cursor.execute(sql,(datos))
