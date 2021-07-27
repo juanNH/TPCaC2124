@@ -87,15 +87,15 @@ def index(id_categoria = None,palabra = None):
     
     if palabra != None:
         palabra = "%"+palabra+"%"
-        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen FROM `articulo` a INNER JOIN `categoria` c ON (a.id_categoria = c.id_categoria) INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE a.titulo LIKE   %s   Order by a.fecha DESC;"
+        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen,c.categoria FROM `articulo` a INNER JOIN `categoria` c ON (a.id_categoria = c.id_categoria) INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE a.titulo LIKE   %s   Order by a.fecha DESC;"
         datos = (palabra)
         cursor.execute(sql,datos)
     elif id_categoria != None :
-        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen FROM `articulo` a INNER JOIN `categoria` c ON (a.id_categoria = c.id_categoria) INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE a.id_categoria = %s Order by a.fecha DESC;"
+        sql= "SELECT a.id_articulo,a.titulo,a.contenido,a.id_categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen,c.categoria FROM `articulo` a INNER JOIN `categoria` c ON (a.id_categoria = c.id_categoria) INNER JOIN `autor` au ON (a.id_autor = au.id_autor) WHERE a.id_categoria = %s Order by a.fecha DESC;"
         datos = (id_categoria)
         cursor.execute(sql,datos) 
     else:
-        sql= "SELECT a.id_articulo,a.titulo,a.contenido,c.categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen FROM `articulo` a INNER JOIN `autor` au ON (a.id_autor = au.id_autor) INNER JOIN `categoria` c ON(c.id_categoria = a.id_categoria) ORDER BY fecha DESC;"
+        sql= "SELECT a.id_articulo,a.titulo,a.contenido,c.categoria,a.id_autor, DATE(a.fecha), CONCAT(au.nombre,' ',au.apellido), a.imagen,c.categoria FROM `articulo` a INNER JOIN `autor` au ON (a.id_autor = au.id_autor) INNER JOIN `categoria` c ON(c.id_categoria = a.id_categoria) ORDER BY fecha DESC;"
         cursor.execute(sql) 
     
    
